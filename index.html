@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>诉前智检 | 金融借款/物业合同 · 智能诉讼准备助手</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/element-plus"></script>
+<script>
+window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT') {
+        console.error('资源加载失败:', e.target.src || e.target.href);
+        document.body.innerHTML = '<div style="padding:40px;text-align:center;font-size:18px;color:#c00;">页面加载失败，请检查网络连接后刷新重试。</div>';
+    }
+}, true);
+</script>
+<style>
+* { box-sizing: border-box; font-family: "仿宋", "FangSong", "STFangsong", "Times New Roman", serif; }
+body { background: #f5f7fa; margin: 0; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 20px; }
+.header h1 { font-size: 2rem; color: #1e3a5f; margin-bottom: 8px; }
+
+.element-table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 0; font-family: "仿宋", "FangSong", "STFangsong", "Times New Roman", serif; font-size: 14px; line-height: 1.8; }
+.element-table th, .element-table td { border: 1px solid #000; padding: 6px 10px; vertical-align: top; text-align: left; }
+.element-table th { background-color: #f5f0f0; font-weight: 600; text-align: center; vertical-align: middle; width: 30%; }
+.element-table td.section-title { background-color: #f0f0f0; font-weight: bold; text-align: center; vertical-align: middle; }
+.element-table td.title-cell { text-align: center; font-weight: bold; }
+.element-table input[type="text"] { border: none; border-bottom: 1px solid #000; background: transparent; font-size: 14px; font-family: "仿宋", "FangSong", serif; padding: 2px 4px; min-width: 100px; width: auto; }
+.element-table input[type="text"][style*="width:100px"] { min-width: 100px; width: 100px; }
+.element-table input[type="text"][style*="width:120px"] { min-width: 120px; width: 120px; }
+.element-table input[type="text"][style*="width:150px"] { min-width: 150px; width: 150px; }
+.element-table input[type="text"][style*="width:200px"] { min-width: 200px; width: 200px; }
+.element-table input[type="text"][style*="width:250px"] { min-width: 250px; width: 250px; }
+.element-table input[type="text"][style*="width:350px"] { min-width: 350px; width: 350px; }
+.element-table input[type="checkbox"] { width: 14px; height: 14px; margin: 0 4px; vertical-align: middle; }
+
+.notice { font-size: 12px; line-height: 1.6; background-color: #fafafa; }
+.signature { text-align: right; margin-top: 40px; font-size: 14px; line-height: 2.2; }
+.auto-filled { background-color: #e8f5e9 !important; }
+
+.toolbar { margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+.toolbar .el-button { margin-right: 10px; }
+
+/* 风险提示样式 */
+.risk-tip-top {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border: 1px solid #f0c36d;
+    background: #fff8e6;
+    color: #8a5a00;
+    font-size: 13px;
+    line-height: 1.8;
+    border-radius: 6px;
+}
+.risk-tip-bottom {
+    margin-top: 24px;
+    padding: 14px 16px;
+    border: 1px dashed #999;
+    background: #fafafa;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+@media print {
+* {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+body {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.container {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 隐藏非打印元素 - 使用更精确的选择器 */
+#app > div > div:first-child,
+#app > div > div > div:first-child,
+#app > div > div > div > div:first-child,
+.el-tabs__header,
+.el-tabs__nav,
+.el-tabs__nav-wrap,
+.el-tabs__nav-scroll,
+.toolbar,
+.header,
+.el-card__header,
+.el-card__body > div:first-child,
+.el-card__body > div:last-child,
+.el-button,
+button,
+.no-print {
+    display: none !important;
+}
+
+/* 强制显示所有表格 */
+.el-tabs__content,
+.el-tabs__content > div,
+.element-table,
+table.element-table {
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* 打印表格样式 */
+.element-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 1px solid #000 !important;
+    page-break-inside: avoid !important;
+    font-family: "仿宋", "FangSong", "STFangsong", "Times New Roman", serif !important;
+    font-size: 14px !important;
+    line-height: 1.8 !important;
+}
+
+.element-table th,
+.element-table td {
+    border: 1px solid #000 !important;
+    padding: 6px 10px !important;
+    vertical-align: top !important;
+    text-align: left !important;
+    background-color: transparent !important;
+}
+
+.element-table th {
+    background-color: #f5f5f5 !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    width: 30% !important;
+}
+
+.element-table td.section-title,
+.element-table td.title-cell {
+    background-color: #e8e8e8 !important;
+    font-weight: bold !important;
+    text-align: center !important;
+}
+
+/* 输入框打印样式 */
+.element-table input[type="text"] {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    background: transparent !important;
+    font-family: "仿宋", "FangSong", serif !important;
+    font-size: 14px !important;
+    padding: 0 !important;
+    min-width: 50px !important;
+}
+
+.element-table input[type="checkbox"] {
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 4px !important;
+    vertical-align: middle !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    border: 1px solid #000 !important;
+}
+
+.element-table input[type="checkbox"]:checked {
+    background: #000 !important;
+}
+
+/* 说明区域 */
+.notice {
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    background-color: transparent !important;
+    padding: 10px !important;
+}
+
+/* 具状签名区域 */
+.signature {
+    text-align: right !important;
+    margin-top: 30px !important;
+    font-size: 14px !important;
+    line-height: 2.2 !important;
+}
+
+/* 自动填充高亮 */
+.auto-filled {
+    background-color: transparent !important;
+}
+
+/* 页眉页脚设置 */
+@page {
+    size: A4 portrait !important;
+    margin: 15mm 15mm 15mm 15mm !important;
+}
+
+/* 确保分页正确 */
+h1, h2, h3 {
+    page-break-after: avoid !important;
+}
+
+table {
+    page-break-inside: avoid !important;
+}
+
+tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="container">
+    <div class="header">
+        <h1>⚖️ 诉前智检 <span style="font-size: 1rem; background: #eef2ff; padding: 4px 12px; border-radius: 40px;">PLIC</span></h1>
+        <p style="color:#666;">金融借款 · 物业服务合同 | 被告识别 · 管辖建议 · 要素式起诉状生成</p>
+    </div>
+
+    <el-card shadow="hover">
+        <el-tabs type="border-card">
+
+            <!-- Tab 1: 智能分析 -->
+            <el-tab-pane label="🤖 智能分析">
+                <el-form label-width="100px">
+                    <el-form-item label="案由选择">
+                        <el-radio-group v-model="caseType">
+                            <el-radio label="finance">🏦 金融借款合同纠纷</el-radio>
+                            <el-radio label="property">🏘️ 物业服务合同纠纷</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="案情描述">
+                        <el-input type="textarea" :rows="6" v-model="caseText" placeholder="请粘贴案情描述或传统起诉状..."></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="analyze" :loading="loading">🔍 智能分析生成</el-button>
+                        <el-button @click="fillExample">📋 填充示例案例</el-button>
+                    </el-form-item>
+                </el-form>
+
+                <div v-if="result" style="margin-top:20px;">
+                    <el-row :gutter="20">
+                        <el-col :span="12">
+                            <el-card shadow="hover">
+                                <template #header><span>🎯 被告识别 & 管辖建议</span></template>
+                                <div><strong>被告：</strong>{{ result.defendant }}</div>
+                                <div style="margin-top:10px;"><strong>管辖法院：</strong>{{ result.court }}</div>
+                            </el-card>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-card shadow="hover">
+                                <template #header><span>📋 抽取要素</span></template>
+                                <pre style="font-size:13px; background:#f8f8f8; padding:10px;">{{ JSON.stringify(result.elements, null, 2) }}</pre>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                    <el-card shadow="hover" style="margin-top:20px;">
+                        <template #header><span>📄 要素式起诉状</span></template>
+                        <div style="white-space:pre-wrap;">{{ result.complaint }}</div>
+                    </el-card>
+                </div>
+
+                <div v-if="error" style="margin-top:20px;">
+                    <el-alert :title="error" type="error" show-icon></el-alert>
+                </div>
+            </el-tab-pane>
+
+            <!-- Tab 2: 起诉状表格 -->
+            <el-tab-pane label="📄 起诉状表格">
+                <div class="toolbar">
+                    <el-radio-group v-model="caseType2" size="large">
+                        <el-radio label="property">🏘️ 物业服务合同纠纷</el-radio>
+                        <el-radio label="finance">🏦 金融借款合同纠纷</el-radio>
+                    </el-radio-group>
+                    <el-divider direction="vertical"></el-divider>
+                    <el-button type="primary" @click="generateForm">🤖 从文本提取</el-button>
+                    <el-button @click="fillDemo">📋 填充示例</el-button>
+                    <el-button type="success" @click="printForm">🖨️ 打印/导出PDF</el-button>
+                    <el-button type="danger" @click="handleGenerateBeforeSubmit">📝 生成要素式起诉状</el-button>
+                    <el-button @click="clearForm">🗑️ 清空</el-button>
+                </div>
+
+                <div style="margin-bottom:20px; padding:16px; background:#fffbe6; border:1px solid #ffe58f; border-radius:6px;">
+                    <div style="font-weight:bold; margin-bottom:10px;">📝 从传统起诉状提取要素</div>
+                    <el-input type="textarea" v-model="caseText2" :rows="8" placeholder="请粘贴传统起诉状文本（支持完整起诉状或要素式表格内容）..."></el-input>
+                    <div style="margin-top:10px;">
+                        <el-button type="primary" @click="generateForm">🔍 规则提取</el-button>
+                        <el-button type="warning" @click="smartExtract" :loading="loading">🤖 AI智能提取</el-button>
+                        <el-button @click="caseText2=''">清空文本</el-button>
+                        <el-button type="success" @click="fillTestExample">📋 填充完整测试数据</el-button>
+                    </div>
+                    <div style="margin-top:10px; font-size:12px; color:#666;">
+                        💡 提示：规则提取基于正则表达式，适合标准格式文本；AI智能提取使用大模型，可处理复杂格式（需配置OPENAI_API_KEY）
+                    </div>
+                    <!-- 页面顶部固定风险提示 -->
+                    <div class="risk-tip-top" style="margin-top:16px;">
+                        温馨提示：本AI工具仅用于辅助生成要素式起诉状，提高文书制作效率，不构成法律意见、律师代理或司法指导。生成内容仅供参考，请您务必自行核对信息真实性、合法性与完整性，因使用不当产生的法律责任由使用者自行承担。
+                    </div>
+                </div>
+
+                <!-- ========== 物业服务合同纠纷 ========== -->
+                <div v-show="caseType2 === 'property'" id="form-property">
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <td colspan="2" class="title-cell" style="font-size: 18px; padding: 16px;">
+                                民事起诉状<br>
+                                <span style="font-size: 14px;">（物业服务合同纠纷）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="notice">
+                                <strong>说明：</strong><br>
+                                为了方便您更好地参加诉讼，保护您的合法权利，请填写本表。<br>
+                                1. 起诉时需向人民法院提交证明您身份的材料，如身份证复印件、营业执照复印件等。<br>
+                                2. 本表所列内容是您提起诉讼以及人民法院查明案件事实所需，请务必如实填写。<br>
+                                3. 本表有些内容可能与您的案件无关，您认为与案件无关的项目可以填"无"或不填；对于本表中勾选项可以在对应项打"√"；您认为另有重要内容需要列明的，可以另附页填写。<br>
+                                4. 本表word电子版填写时，相关栏目可复制粘贴或扩容，但不得改变要素内容、格式设置。<br>
+                                <br>
+                                ★特别提示★<br>
+                                诉讼参加人应遵守诚信原则如实认真填写表格。<br>
+                                如果诉讼参加人违反有关规定，虚假诉讼、恶意诉讼、滥用诉权，人民法院将视违法情形依法追究责任。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>当事人信息</strong></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 30%;">原告<br>（法人、非法人组织）</th>
+                            <td>
+                                名称：<input type="text" v-model="prop.pName" :class="{'auto-filled': prop.pName}" style="width:200px;"><br>
+                                住所地（主要办事机构所在地）：<input type="text" v-model="prop.pAddr" :class="{'auto-filled': prop.pAddr}" style="width:350px;"><br>
+                                注册地/登记地：<input type="text" v-model="prop.pRegAddr" :class="{'auto-filled': prop.pRegAddr}" style="width:250px;"><br>
+                                法定代表人/负责人：<input type="text" v-model="prop.pLegal" :class="{'auto-filled': prop.pLegal}" style="width:120px;">
+                                职务：<input type="text" v-model="prop.pPosition" :class="{'auto-filled': prop.pPosition}" style="width:80px;">
+                                联系电话：<input type="text" v-model="prop.pPhone" :class="{'auto-filled': prop.pPhone}" style="width:120px;"><br>
+                                统一社会信用代码：<input type="text" v-model="prop.pUscc" :class="{'auto-filled': prop.pUscc}" style="width:200px;"><br>
+                                类型：<input type="checkbox" v-model="prop.pTypeLLC">有限责任公司
+                                <input type="checkbox" v-model="prop.pTypeJointStock">股份有限公司
+                                <input type="checkbox" v-model="prop.pTypeListed">上市公司
+                                <input type="checkbox" v-model="prop.pTypeOtherCorp">其他企业法人<br>
+                                所有制性质：<input type="checkbox" v-model="prop.pOwnerState">国有
+                                （<input type="checkbox" v-model="prop.pOwnerStateControl">控股/<input type="checkbox" v-model="prop.pOwnerStateParticipate">参股）
+                                <input type="checkbox" v-model="prop.pOwnerPrivate">民营
+                                其他<input type="text" v-model="prop.pOwnerOther" :class="{'auto-filled': prop.pOwnerOther}" style="width:80px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>委托诉讼代理人</th>
+                            <td>
+                                有<input type="checkbox" v-model="prop.hasAgent"><br>
+                                代理人1姓名：<input type="text" v-model="prop.agent1Name" :class="{'auto-filled': prop.agent1Name}" style="width:100px;">
+                                单位：<input type="text" v-model="prop.agent1Unit" :class="{'auto-filled': prop.agent1Unit}" style="width:120px;">
+                                职务：<input type="text" v-model="prop.agent1Title" :class="{'auto-filled': prop.agent1Title}" style="width:80px;"><br>
+                                联系电话：<input type="text" v-model="prop.agent1Phone" :class="{'auto-filled': prop.agent1Phone}" style="width:120px;">
+                                代理权限：<input type="checkbox" v-model="prop.agent1General">一般授权
+                                <input type="checkbox" v-model="prop.agent1Special">特别授权<br>
+                                授权补充说明：<input type="text" v-model="prop.agent1AuthDesc" :class="{'auto-filled': prop.agent1AuthDesc}" style="width:250px;"><br>
+                                代理人2姓名：<input type="text" v-model="prop.agent2Name" :class="{'auto-filled': prop.agent2Name}" style="width:100px;">
+                                单位：<input type="text" v-model="prop.agent2Unit" :class="{'auto-filled': prop.agent2Unit}" style="width:120px;">
+                                职务：<input type="text" v-model="prop.agent2Title" :class="{'auto-filled': prop.agent2Title}" style="width:80px;"><br>
+                                联系电话：<input type="text" v-model="prop.agent2Phone" :class="{'auto-filled': prop.agent2Phone}" style="width:120px;">
+                                代理权限：<input type="checkbox" v-model="prop.agent2General">一般授权
+                                <input type="checkbox" v-model="prop.agent2Special">特别授权<br>
+                                授权补充说明：<input type="text" v-model="prop.agent2AuthDesc" :class="{'auto-filled': prop.agent2AuthDesc}" style="width:250px;"><br>
+                                无<input type="checkbox" v-model="prop.noAgent">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>被告<br>（自然人）</th>
+                            <td>
+                                姓名：<input type="text" v-model="prop.dName" :class="{'auto-filled': prop.dName}" style="width:100px;"><br>
+                                性别：<input type="checkbox" v-model="prop.dMale">男
+                                <input type="checkbox" v-model="prop.dFemale">女<br>
+                                出生日期：<input type="text" v-model="prop.dBirth" :class="{'auto-filled': prop.dBirth}" style="width:150px;">
+                                民族：<input type="text" v-model="prop.dNation" :class="{'auto-filled': prop.dNation}" style="width:80px;"><br>
+                                工作单位：<input type="text" v-model="prop.dWork" :class="{'auto-filled': prop.dWork}" style="width:150px;">
+                                职务：<input type="text" v-model="prop.dPosition" :class="{'auto-filled': prop.dPosition}" style="width:80px;">
+                                联系电话：<input type="text" v-model="prop.dPhone" :class="{'auto-filled': prop.dPhone}" style="width:120px;"><br>
+                                住所地（户籍所在地）：<input type="text" v-model="prop.dAddr" :class="{'auto-filled': prop.dAddr}" style="width:250px;"><br>
+                                经常居住地：<input type="text" v-model="prop.dLiveAddr" :class="{'auto-filled': prop.dLiveAddr}" style="width:250px;"><br>
+                                证件类型：<input type="text" v-model="prop.dIdType" :class="{'auto-filled': prop.dIdType}" style="width:100px;"><br>
+                                证件号码：<input type="text" v-model="prop.dIdNo" :class="{'auto-filled': prop.dIdNo}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>被告二<br>（自然人）</th>
+                            <td>
+                                姓名：<input type="text" v-model="prop.d2Name" :class="{'auto-filled': prop.d2Name}" style="width:100px;"><br>
+                                性别：<input type="checkbox" v-model="prop.d2Male">男
+                                <input type="checkbox" v-model="prop.d2Female">女<br>
+                                出生日期：<input type="text" v-model="prop.d2Birth" :class="{'auto-filled': prop.d2Birth}" style="width:150px;">
+                                民族：<input type="text" v-model="prop.d2Nation" :class="{'auto-filled': prop.d2Nation}" style="width:80px;"><br>
+                                工作单位：<input type="text" v-model="prop.d2Work" :class="{'auto-filled': prop.d2Work}" style="width:150px;">
+                                职务：<input type="text" v-model="prop.d2Position" :class="{'auto-filled': prop.d2Position}" style="width:80px;">
+                                联系电话：<input type="text" v-model="prop.d2Phone" :class="{'auto-filled': prop.d2Phone}" style="width:120px;"><br>
+                                住所地（户籍所在地）：<input type="text" v-model="prop.d2Addr" :class="{'auto-filled': prop.d2Addr}" style="width:250px;"><br>
+                                经常居住地：<input type="text" v-model="prop.d2LiveAddr" :class="{'auto-filled': prop.d2LiveAddr}" style="width:250px;"><br>
+                                证件类型：<input type="text" v-model="prop.d2IdType" :class="{'auto-filled': prop.d2IdType}" style="width:100px;"><br>
+                                证件号码：<input type="text" v-model="prop.d2IdNo" :class="{'auto-filled': prop.d2IdNo}" style="width:150px;">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>诉讼请求</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size: 12px; color: #555;">
+                                （可完整表述诉讼请求；为方便、准确梳理要点，相关内容请在下方要素式表格中填写）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 30%;">1.物业费</th>
+                            <td>截至 <input type="text" v-model="prop.feeEndDate" :class="{'auto-filled': prop.feeEndDate}" style="width:140px;"> 止，尚欠物业费 <input type="text" v-model="prop.feeAmount" :class="{'auto-filled': prop.feeAmount}" style="width:100px;"> 元</td>
+                        </tr>
+                        <tr>
+                            <th>2.违约金</th>
+                            <td>
+                                截至 <input type="text" v-model="prop.penaltyEndDate" :class="{'auto-filled': prop.penaltyEndDate}" style="width:140px;"> 止，欠逾期物业费的违约金 <input type="text" v-model="prop.penaltyAmount" :class="{'auto-filled': prop.penaltyAmount}" style="width:100px;"> 元<br>
+                                是否请求支付至实际清偿之日止：<input type="checkbox" v-model="prop.payableToEnd">是
+                                <input type="checkbox" v-model="prop.payableToEndNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>3.是否主张诉讼费用</th>
+                            <td><input type="checkbox" v-model="prop.claimFeeYes">是
+                                <input type="checkbox" v-model="prop.claimFeeNo">否</td>
+                        </tr>
+                        <tr>
+                            <th>4.其他请求</th>
+                            <td><input type="text" v-model="prop.otherClaim" :class="{'auto-filled': prop.otherClaim}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>5.标的总额</th>
+                            <td><input type="text" v-model="prop.claimTotal" :class="{'auto-filled': prop.claimTotal}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>约定管辖和诉前保全</strong></td>
+                        </tr>
+                        <tr>
+                            <th>1.有无仲裁、法院管辖约定</th>
+                            <td>
+                                <input type="checkbox" v-model="prop.hasJurisdiction">有 合同条款及内容：<input type="text" v-model="prop.jurisdictionText" :class="{'auto-filled': prop.jurisdictionText}" style="width:250px;"><br>
+                                <input type="checkbox" v-model="prop.noJurisdiction">无
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>2.是否已经诉前保全</th>
+                            <td>
+                                <input type="checkbox" v-model="prop.hasPreservation">是 保全法院：<input type="text" v-model="prop.preservationCourt" :class="{'auto-filled': prop.preservationCourt}" style="width:100px;">
+                                保全时间：<input type="text" v-model="prop.preservationDate" :class="{'auto-filled': prop.preservationDate}" style="width:120px;"><br>
+                                保全案号：<input type="text" v-model="prop.preservationCaseNo" :class="{'auto-filled': prop.preservationCaseNo}" style="width:150px;"><br>
+                                <input type="checkbox" v-model="prop.noPreservation">否<br>
+                                （如申请诉讼保全，请另行提交诉讼保全申请及相关材料）
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>事实与理由</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size: 12px; color: #555;">
+                                （可完整表述纠纷涉及的事实与理由；为方便、准确梳理要点，相关内容请在下方要素式表格中填写）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 40%;">1.物业服务合同或前期物业服务合同签订情况（名称、编号、签订时间、地点等）</th>
+                            <td><input type="text" v-model="prop.factContract" :class="{'auto-filled': prop.factContract}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>2.签订主体</th>
+                            <td>
+                                业主/建设单位：<input type="text" v-model="prop.factOwnerOrg" :class="{'auto-filled': prop.factOwnerOrg}" style="width:150px;"><br>
+                                物业服务人：<input type="text" v-model="prop.factPropCompany" :class="{'auto-filled': prop.factPropCompany}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>3.物业项目情况</th>
+                            <td>
+                                坐落位置：<input type="text" v-model="prop.factLocation" :class="{'auto-filled': prop.factLocation}" style="width:250px;"><br>
+                                面积：<input type="text" v-model="prop.factArea" :class="{'auto-filled': prop.factArea}" style="width:100px;">
+                                所有权人：<input type="text" v-model="prop.factOwner" :class="{'auto-filled': prop.factOwner}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>4.约定的物业费标准</th>
+                            <td><input type="text" v-model="prop.factFeeStd" :class="{'auto-filled': prop.factFeeStd}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>5.约定的物业服务期限</th>
+                            <td><input type="text" v-model="prop.factStartYear" :class="{'auto-filled': prop.factStartYear}" style="width:60px;"> 年 <input type="text" v-model="prop.factStartMonth" :class="{'auto-filled': prop.factStartMonth}" style="width:50px;"> 月 <input type="text" v-model="prop.factStartDay" :class="{'auto-filled': prop.factStartDay}" style="width:50px;"> 日 起至 <input type="text" v-model="prop.factEndYear" :class="{'auto-filled': prop.factEndYear}" style="width:60px;"> 年 <input type="text" v-model="prop.factEndMonth" :class="{'auto-filled': prop.factEndMonth}" style="width:50px;"> 月 <input type="text" v-model="prop.factEndDay" :class="{'auto-filled': prop.factEndDay}" style="width:50px;"> 日 止</td>
+                        </tr>
+                        <tr>
+                            <th>6.约定的物业费支付方式</th>
+                            <td><input type="text" v-model="prop.factPayMethod" :class="{'auto-filled': prop.factPayMethod}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>7.约定的逾期支付物业费违约金标准</th>
+                            <td><input type="text" v-model="prop.factPenaltyStd" :class="{'auto-filled': prop.factPenaltyStd}" style="width:250px;"></td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <th style="width: 40%;">8.被告欠付物业费数额及计算方式</th>
+                            <td>
+                                欠付物业费数额：<input type="text" v-model="prop.owedAmount" :class="{'auto-filled': prop.owedAmount}" style="width:100px;"><br>
+                                具体计算方式：<input type="text" v-model="prop.owedCalc" :class="{'auto-filled': prop.owedCalc}" style="width:250px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>9.被告应付违约金数额及计算方式</th>
+                            <td>
+                                应付违约金数额：<input type="text" v-model="prop.penaltyAmount2" :class="{'auto-filled': prop.penaltyAmount2}" style="width:100px;"><br>
+                                具体计算方式：<input type="text" v-model="prop.penaltyCalc" :class="{'auto-filled': prop.penaltyCalc}" style="width:250px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>10.催缴情况</th>
+                            <td><input type="text" v-model="prop.factCollection" :class="{'auto-filled': prop.factCollection}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>11.其他需要说明的内容（可另附页）</th>
+                            <td><input type="text" v-model="prop.factOther" :class="{'auto-filled': prop.factOther}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>12.请求依据</th>
+                            <td>
+                                合同约定：<input type="text" v-model="prop.factClaimContract" :class="{'auto-filled': prop.factClaimContract}" style="width:250px;"><br>
+                                法律规定：<input type="text" v-model="prop.factClaimLaw" :class="{'auto-filled': prop.factClaimLaw}" style="width:250px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>13.证据清单（可另附页）</th>
+                            <td><textarea v-model="prop.factEvidence" :class="{'auto-filled': prop.factEvidence}" rows="4" style="width:100%; border:none; border-bottom:1px solid #000; background:transparent; font-size:14px; font-family:仿宋,serif; resize:vertical;"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>对纠纷解决方式的意愿</strong></td>
+                        </tr>
+                        <tr>
+                            <th>是否了解调解作为非诉讼纠纷解决方式，能及时、高效、低成本、不伤和气地解决纠纷</th>
+                            <td><input type="checkbox" v-model="prop.mediationUnderstandYes">了解
+                                <input type="checkbox" v-model="prop.mediationUnderstandNo">不了解</td>
+                        </tr>
+                        <tr>
+                            <th>是否了解先行调解解决纠纷的好处</th>
+                            <td>
+                                1. 立案后选择先行调解的，可以很快启动调解程序。如不同意调解，法院将依程序开庭审理案件，但可能需要经过较长一段时间的排期等待，且审理、执行周期相对较长。<br>
+                                <input type="checkbox" v-model="prop.mediationBenefit1Yes">了解 <input type="checkbox" v-model="prop.mediationBenefit1No">不了解<br><br>
+                                2. 选择先行调解，调解成功且自动履行的免交诉讼费用，申请司法确认的不交纳诉讼费用，要求出具调解书的减半交纳诉讼费用。<br>
+                                <input type="checkbox" v-model="prop.mediationBenefit2Yes">了解 <input type="checkbox" v-model="prop.mediationBenefit2No">不了解<br><br>
+                                3. 首次调解不成功，但仍有继续调解意愿的，可以选择更换调解组织和调解员再进行调解。调解无法达成一致意见的，法院将依程序排期开庭。<br>
+                                <input type="checkbox" v-model="prop.mediationBenefit3Yes">了解 <input type="checkbox" v-model="prop.mediationBenefit3No">不了解<br><br>
+                                4. 依照法律规定，调解具有保密性要求，调解过程不公开，调解协议未经当事人同意不得公开。<br>
+                                <input type="checkbox" v-model="prop.mediationBenefit4Yes">了解 <input type="checkbox" v-model="prop.mediationBenefit4No">不了解<br><br>
+                                5. 调解达成的协议具有法律效力，可以依照法律规定申请司法确认，具有强制执行效力。<br>
+                                <input type="checkbox" v-model="prop.mediationBenefit5Yes">了解 <input type="checkbox" v-model="prop.mediationBenefit5No">不了解
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>是否考虑先行调解</th>
+                            <td>
+                                <input type="checkbox" v-model="prop.mediationConsiderYes">是<br>
+                                <input type="checkbox" v-model="prop.mediationConsiderNo">否<br>
+                                <input type="checkbox" v-model="prop.mediationConsiderUncertain">暂不确定，想要了解更多内容
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="signature">
+                        此致 <u style="display:inline-block; min-width:200px; border-bottom:1px solid #000; text-align:center; font-size:14px; font-family:仿宋,serif;">{{ prop.courtName }}</u> 人民法院<br><br>
+                        具状人（签字、盖章）：<u style="display:inline-block; min-width:280px; border-bottom:1px solid #000; font-size:14px; font-family:仿宋,serif;">{{ prop.signParty }}</u><br><br>
+                        日期：<u style="display:inline-block; min-width:180px; border-bottom:1px solid #000; font-size:14px; font-family:仿宋,serif;">{{ prop.signDate }}</u>
+                    </div>
+                    <!-- 页面底部固定声明 -->
+                    <div class="risk-tip-bottom">
+                        <strong>重要声明：</strong><br>
+                        1.本AI生成文书仅为格式与要素辅助，不代表法院立案标准或司法观点；<br>
+                        2.请您仔细核对当事人信息、金额计算、合同约定、事实理由等全部内容；<br>
+                        3.因信息填写错误、内容不实或使用不当引发的一切法律责任，均由使用者自行承担，本AI及开发方不承担任何法律责任。
+                    </div>
+                </div>
+
+                <!-- ========== 金融借款合同纠纷 ========== -->
+                <div v-show="caseType2 === 'finance'" id="form-finance">
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <td colspan="2" class="title-cell" style="font-size: 18px; padding: 16px;">
+                                民事起诉状<br>
+                                <span style="font-size: 14px;">（金融借款合同纠纷）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="notice">
+                                <strong>说明：</strong><br>
+                                为了方便您更好地参加诉讼，保护您的合法权利，请填写本表。<br>
+                                1. 起诉时需向人民法院提交证明您身份的材料，如身份证复印件、营业执照复印件等。<br>
+                                2. 本表所列内容是您提起诉讼以及人民法院查明案件事实所需，请务必如实填写。<br>
+                                3. 本表所涉内容系针对一般金融借款合同纠纷案件，有些内容可能与您的案件无关，您认为与案件无关的项目可以填"无"或不填；对于本表中勾选项可以在对应项打"√"；您认为另有重要内容需要列明的，可以在本表尾部或者另附页填写。<br>
+                                4. 本表word电子版填写时，相关栏目可复制粘贴或扩容，但不得改变要素内容、格式设置。<br>
+                                <br>
+                                ★特别提示★<br>
+                                诉讼参加人应遵守诚信原则如实认真填写表格。<br>
+                                如果诉讼参加人违反有关规定，虚假诉讼、恶意诉讼、滥用诉权，人民法院将视违法情形依法追究责任。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>当事人信息</strong></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 30%;">原告<br>（自然人）</th>
+                            <td>
+                                姓名：<input type="text" v-model="fin.pName" :class="{'auto-filled': fin.pName}" style="width:100px;"><br>
+                                性别：<input type="checkbox" v-model="fin.pMale">男 <input type="checkbox" v-model="fin.pFemale">女<br>
+                                出生日期：<input type="text" v-model="fin.pBirth" :class="{'auto-filled': fin.pBirth}" style="width:150px;"> 年
+                                民族：<input type="text" v-model="fin.pNation" :class="{'auto-filled': fin.pNation}" style="width:80px;"><br>
+                                工作单位：<input type="text" v-model="fin.pWork" :class="{'auto-filled': fin.pWork}" style="width:150px;">
+                                职务：<input type="text" v-model="fin.pPosition" :class="{'auto-filled': fin.pPosition}" style="width:80px;">
+                                联系电话：<input type="text" v-model="fin.pPhone" :class="{'auto-filled': fin.pPhone}" style="width:120px;"><br>
+                                住所地（户籍所在地）：<input type="text" v-model="fin.pAddr" :class="{'auto-filled': fin.pAddr}" style="width:250px;"><br>
+                                经常居住地：<input type="text" v-model="fin.pLiveAddr" :class="{'auto-filled': fin.pLiveAddr}" style="width:250px;"><br>
+                                证件类型：<input type="text" v-model="fin.pIdType" :class="{'auto-filled': fin.pIdType}" style="width:100px;"><br>
+                                证件号码：<input type="text" v-model="fin.pIdNo" :class="{'auto-filled': fin.pIdNo}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>原告<br>（法人、非法人组织）</th>
+                            <td>
+                                名称：<input type="text" v-model="fin.fLenderName" :class="{'auto-filled': fin.fLenderName}" style="width:200px;"><br>
+                                住所地（主要办事机构所在地）：<input type="text" v-model="fin.fLenderAddr" :class="{'auto-filled': fin.fLenderAddr}" style="width:250px;"><br>
+                                注册地/登记地：<input type="text" v-model="fin.fLenderRegAddr" :class="{'auto-filled': fin.fLenderRegAddr}" style="width:250px;"><br>
+                                法定代表人/主要负责人：<input type="text" v-model="fin.fLegalRep" :class="{'auto-filled': fin.fLegalRep}" style="width:100px;">
+                                职务：<input type="text" v-model="fin.fLegalRepPosition" :class="{'auto-filled': fin.fLegalRepPosition}" style="width:80px;">
+                                联系电话：<input type="text" v-model="fin.fLenderPhone" :class="{'auto-filled': fin.fLenderPhone}" style="width:120px;"><br>
+                                统一社会信用代码：<input type="text" v-model="fin.fLenderUscc" :class="{'auto-filled': fin.fLenderUscc}" style="width:200px;"><br>
+                                类型：<input type="checkbox" v-model="fin.fTypeLLC">有限责任公司
+                                <input type="checkbox" v-model="fin.fTypeJointStock">股份有限公司
+                                <input type="checkbox" v-model="fin.fTypeListed">上市公司
+                                <input type="checkbox" v-model="fin.fTypeOtherCorp">其他企业法人
+                                <input type="checkbox" v-model="fin.fTypeInstitution">事业单位
+                                <input type="checkbox" v-model="fin.fTypeSocialGroup">社会团体
+                                <input type="checkbox" v-model="fin.fTypeFund">基金会
+                                <input type="checkbox" v-model="fin.fTypeServiceOrg">社会服务机构
+                                <input type="checkbox" v-model="fin.fTypeGov">机关法人
+                                <input type="checkbox" v-model="fin.fTypeRuralCollective">农村集体经济组织法人
+                                <input type="checkbox" v-model="fin.fTypeUrbanRuralCoop">城镇农村的合作经济组织法人
+                                <input type="checkbox" v-model="fin.fTypeGrassroots">基层群众性自治组织法人
+                                <input type="checkbox" v-model="fin.fTypeSole">个人独资企业
+                                <input type="checkbox" v-model="fin.fTypePartnership">合伙企业
+                                <input type="checkbox" v-model="fin.fTypeNoLegalService">不具有法人资格的专业服务机构<br>
+                                所有制性质：<input type="checkbox" v-model="fin.fOwnerState">国有（<input type="checkbox" v-model="fin.fOwnerStateControl">控股 <input type="checkbox" v-model="fin.fOwnerStateParticipate">参股)
+                                <input type="checkbox" v-model="fin.fOwnerPrivate">民营
+                                其他<input type="text" v-model="fin.fOwnerOther" :class="{'auto-filled': fin.fOwnerOther}" style="width:80px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>委托诉讼代理人</th>
+                            <td>
+                                有<input type="checkbox" v-model="fin.hasAgent"><br>
+                                姓名：<input type="text" v-model="fin.agentName" :class="{'auto-filled': fin.agentName}" style="width:100px;"><br>
+                                单位：<input type="text" v-model="fin.agentUnit" :class="{'auto-filled': fin.agentUnit}" style="width:150px;">
+                                职务：<input type="text" v-model="fin.agentTitle" :class="{'auto-filled': fin.agentTitle}" style="width:80px;">
+                                联系电话：<input type="text" v-model="fin.agentPhone" :class="{'auto-filled': fin.agentPhone}" style="width:120px;"><br>
+                                代理权限：<input type="checkbox" v-model="fin.agentGeneral">一般授权
+                                <input type="checkbox" v-model="fin.agentSpecial">特别授权
+                                补充说明：<input type="text" v-model="fin.agentAuthDesc" :class="{'auto-filled': fin.agentAuthDesc}" style="width:150px;"><br>
+                                无<input type="checkbox" v-model="fin.noAgent">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>被告<br>（自然人）</th>
+                            <td>
+                                姓名：<input type="text" v-model="fin.fBorrowerName" :class="{'auto-filled': fin.fBorrowerName}" style="width:100px;"><br>
+                                性别：<input type="checkbox" v-model="fin.dMale">男
+                                <input type="checkbox" v-model="fin.dFemale">女<br>
+                                出生日期：<input type="text" v-model="fin.dBirth" :class="{'auto-filled': fin.dBirth}" style="width:150px;">
+                                民族：<input type="text" v-model="fin.dNation" :class="{'auto-filled': fin.dNation}" style="width:80px;"><br>
+                                工作单位：<input type="text" v-model="fin.dWork" :class="{'auto-filled': fin.dWork}" style="width:150px;">
+                                职务：<input type="text" v-model="fin.dPosition" :class="{'auto-filled': fin.dPosition}" style="width:80px;">
+                                联系电话：<input type="text" v-model="fin.dPhone" :class="{'auto-filled': fin.dPhone}" style="width:120px;"><br>
+                                住所地（户籍所在地）：<input type="text" v-model="fin.fBorrowerAddr" :class="{'auto-filled': fin.fBorrowerAddr}" style="width:250px;"><br>
+                                经常居住地：<input type="text" v-model="fin.dLiveAddr" :class="{'auto-filled': fin.dLiveAddr}" style="width:250px;"><br>
+                                证件类型：<input type="text" v-model="fin.dIdType" :class="{'auto-filled': fin.dIdType}" style="width:100px;"><br>
+                                证件号码：<input type="text" v-model="fin.dIdNo" :class="{'auto-filled': fin.dIdNo}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>被告<br>（法人、非法人组织）</th>
+                            <td>
+                                名称：<input type="text" v-model="fin.dEntityName" :class="{'auto-filled': fin.dEntityName}" style="width:200px;"><br>
+                                住所地（主要办事机构所在地）：<input type="text" v-model="fin.dEntityAddr" :class="{'auto-filled': fin.dEntityAddr}" style="width:250px;"><br>
+                                注册地/登记地：<input type="text" v-model="fin.dEntityRegAddr" :class="{'auto-filled': fin.dEntityRegAddr}" style="width:250px;"><br>
+                                法定代表人/主要负责人：<input type="text" v-model="fin.dEntityLegal" :class="{'auto-filled': fin.dEntityLegal}" style="width:100px;">
+                                职务：<input type="text" v-model="fin.dEntityPosition" :class="{'auto-filled': fin.dEntityPosition}" style="width:80px;">
+                                联系电话：<input type="text" v-model="fin.dEntityPhone" :class="{'auto-filled': fin.dEntityPhone}" style="width:120px;"><br>
+                                统一社会信用代码：<input type="text" v-model="fin.dEntityUscc" :class="{'auto-filled': fin.dEntityUscc}" style="width:200px;"><br>
+                                类型：<input type="checkbox" v-model="fin.dEntityType">有限责任公司等<br>
+                                所有制性质：<input type="text" v-model="fin.dEntityOwnerType" :class="{'auto-filled': fin.dEntityOwnerType}" style="width:150px;">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>诉讼请求</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size: 12px; color: #555;">
+                                （可完整表述诉讼请求；为方便、准确梳理要点，相关内容请在下方要素式表格中填写）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 30%;">1.本金</th>
+                            <td>截至 <input type="text" v-model="fin.principalCutoffDate" :class="{'auto-filled': fin.principalCutoffDate}" style="width:140px;"> 止，尚欠本金 <input type="text" v-model="fin.fPrincipalAmount" :class="{'auto-filled': fin.fPrincipalAmount}" style="width:100px;"> 元（人民币，下同；如外币需特别注明）；</td>
+                        </tr>
+                        <tr>
+                            <th>2.利息（期内利息、复利、罚息）</th>
+                            <td>
+                                截至 <input type="text" v-model="fin.interestCutoffDate" :class="{'auto-filled': fin.interestCutoffDate}" style="width:140px;"> 止，欠利息 <input type="text" v-model="fin.fInterestAmount" :class="{'auto-filled': fin.fInterestAmount}" style="width:100px;"> 元、复利 <input type="text" v-model="fin.fCompoundAmount" :class="{'auto-filled': fin.fCompoundAmount}" style="width:100px;"> 元、罚息（违约金） <input type="text" v-model="fin.fPenaltyAmount" :class="{'auto-filled': fin.fPenaltyAmount}" style="width:100px;"> 元；
+                                计算方式：<input type="text" v-model="fin.interestCalc" :class="{'auto-filled': fin.interestCalc}" style="width:250px;"><br>
+                                是否请求支付至实际清偿之日止：<input type="checkbox" v-model="fin.payableToEnd">是
+                                <input type="checkbox" v-model="fin.payableToEndNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>3.是否要求提前还款或解除合同</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.earlyRepaymentYes">是 提前还款（加速到期）<input type="checkbox" v-model="fin.earlyRepaymentAccel"> / 解除合同<input type="checkbox" v-model="fin.terminationYes"><br>
+                                <input type="checkbox" v-model="fin.earlyRepaymentNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>4.是否主张担保权利</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.collateralYes">是 内容：<input type="text" v-model="fin.collateralClaimDesc" :class="{'auto-filled': fin.collateralClaimDesc}" style="width:250px;"><br>
+                                <input type="checkbox" v-model="fin.collateralNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>5.是否主张实现债权的费用</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.expenseYes">是 明细：<input type="text" v-model="fin.expenseDesc" :class="{'auto-filled': fin.expenseDesc}" style="width:250px;"><br>
+                                <input type="checkbox" v-model="fin.expenseNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>6.是否主张诉讼费用</th>
+                            <td><input type="checkbox" v-model="fin.claimFeeYes">是
+                                <input type="checkbox" v-model="fin.claimFeeNo">否</td>
+                        </tr>
+                        <tr>
+                            <th>7.其他请求</th>
+                            <td><input type="text" v-model="fin.otherClaim" :class="{'auto-filled': fin.otherClaim}" style="width:250px;"></td>
+                        </tr>
+                        <tr>
+                            <th>8.标的总额</th>
+                            <td><input type="text" v-model="fin.claimTotal" :class="{'auto-filled': fin.claimTotal}" style="width:250px;"> 元</td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>约定管辖和诉前保全</strong></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 30%;">1.有无仲裁、法院管辖约定</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.hasJurisdiction">有 合同条款及内容：<input type="text" v-model="fin.jurisdictionText" :class="{'auto-filled': fin.jurisdictionText}" style="width:250px;"><br>
+                                <input type="checkbox" v-model="fin.noJurisdiction">无
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>2.是否已经诉前保全</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.hasPreservation">是 保全法院：<input type="text" v-model="fin.preservationCourt" :class="{'auto-filled': fin.preservationCourt}" style="width:100px;">
+                                保全时间：<input type="text" v-model="fin.preservationDate" :class="{'auto-filled': fin.preservationDate}" style="width:120px;"><br>
+                                保全案号：<input type="text" v-model="fin.preservationCaseNo" :class="{'auto-filled': fin.preservationCaseNo}" style="width:150px;"><br>
+                                <input type="checkbox" v-model="fin.noPreservation">否<br>
+                                （如申请诉讼保全，请另行提交诉讼保全申请及相关材料）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>事实与理由</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size: 12px; color: #555;">
+                                （可完整表述纠纷涉及的事实与理由；为方便、准确梳理要点，相关内容请在下方要素式表格中填写）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>1.合同签订情况（名称、编号、签订时间、地点等）</th>
+                            <td><input type="text" v-model="fin.factContractInfo" :class="{'auto-filled': fin.factContractInfo}" style="width:350px;"></td>
+                        </tr>
+                        <tr>
+                            <th>2.合同主体</th>
+                            <td>
+                                贷款人：<input type="text" v-model="fin.lenderName" :class="{'auto-filled': fin.lenderName}" style="width:150px;"><br>
+                                借款人：<input type="text" v-model="fin.borrowerName" :class="{'auto-filled': fin.borrowerName}" style="width:150px;"><br>
+                                共同还款人：<input type="text" v-model="fin.coRepayerName" :class="{'auto-filled': fin.coRepayerName}" style="width:150px;"><br>
+                                保证人：<input type="text" v-model="fin.guarantorName" :class="{'auto-filled': fin.guarantorName}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>3.借款金额</th>
+                            <td>
+                                约定：<input type="text" v-model="fin.fPrincipalAgreed" :class="{'auto-filled': fin.fPrincipalAgreed}" style="width:150px;"> 元<br>
+                                实际发放：<input type="text" v-model="fin.fPrincipalActual" :class="{'auto-filled': fin.fPrincipalActual}" style="width:150px;"> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>4.借款期限</th>
+                            <td>
+                                是否到期：<input type="checkbox" v-model="fin.maturedYes">是
+                                <input type="checkbox" v-model="fin.maturedNo">否<br>
+                                约定期限：<input type="text" v-model="fin.loanStartYear" :class="{'auto-filled': fin.loanStartYear}" style="width:80px;"> 年
+                                <input type="text" v-model="fin.loanStartMonth" :class="{'auto-filled': fin.loanStartMonth}" style="width:50px;"> 月
+                                <input type="text" v-model="fin.loanStartDay" :class="{'auto-filled': fin.loanStartDay}" style="width:50px;"> 日
+                                起至 <input type="text" v-model="fin.loanEndYear" :class="{'auto-filled': fin.loanEndYear}" style="width:80px;"> 年
+                                <input type="text" v-model="fin.loanEndMonth" :class="{'auto-filled': fin.loanEndMonth}" style="width:50px;"> 月
+                                <input type="text" v-model="fin.loanEndDay" :class="{'auto-filled': fin.loanEndDay}" style="width:50px;"> 日 止
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>5.借款利率</th>
+                            <td>
+                                利率<input type="checkbox" v-model="fin.rateYes">
+                                <input type="text" v-model="fin.fInterestRate" :class="{'auto-filled': fin.fInterestRate}" style="width:50px;"> %/年（季/月）<br>
+                                逾期上浮<input type="checkbox" v-model="fin.penaltyRateYes">
+                                <input type="text" v-model="fin.fOverdueRate" :class="{'auto-filled': fin.fOverdueRate}" style="width:50px;"> %/年<br>
+                                复利<input type="checkbox" v-model="fin.compound">（合同条款：第 <input type="text" v-model="fin.compoundRule" :class="{'auto-filled': fin.compoundRule}" style="width:40px;"> 条）<br>
+                                罚息（违约金）<input type="checkbox" v-model="fin.defaultRateYes">
+                                <input type="text" v-model="fin.fPenaltyRate" :class="{'auto-filled': fin.fPenaltyRate}" style="width:50px;"> %/年
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>6.借款提供时间</th>
+                            <td><input type="text" v-model="fin.fDisbursementDate" :class="{'auto-filled': fin.fDisbursementDate}" style="width:200px;">，
+                                <input type="text" v-model="fin.fDisbursementAmount" :class="{'auto-filled': fin.fDisbursementAmount}" style="width:100px;"> 元</td>
+                        </tr>
+                        <tr>
+                            <th>7.还款方式</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.fRepayEqualPrincipalInterest">等额本息<br>
+                                <input type="checkbox" v-model="fin.fRepayEqualPrincipal">等额本金<br>
+                                <input type="checkbox" v-model="fin.fRepayOneTime">到期一次性还本付息<br>
+                                <input type="checkbox" v-model="fin.fRepayMonthlyInterest">按月计息、到期一次性还本<br>
+                                <input type="checkbox" v-model="fin.fRepayQuarterlyInterest">按季计息、到期一次性还本<br>
+                                <input type="checkbox" v-model="fin.fRepayYearlyInterest">按年计息、到期一次性还本<br>
+                                <input type="checkbox" v-model="fin.repayOther">其他：<input type="text" v-model="fin.fRepayOther" :class="{'auto-filled': fin.fRepayOther}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>8.还款情况</th>
+                            <td>
+                                已还本金：<input type="text" v-model="fin.fRepaidPrincipal" :class="{'auto-filled': fin.fRepaidPrincipal}" style="width:100px;"> 元<br>
+                                已还利息：<input type="text" v-model="fin.fRepaidInterest" :class="{'auto-filled': fin.fRepaidInterest}" style="width:100px;"> 元，还息至 <input type="text" v-model="fin.fInterestPaidToDate" :class="{'auto-filled': fin.fInterestPaidToDate}" style="width:150px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>9.是否存在逾期还款</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.overdueYes">是 逾期时间：<input type="text" v-model="fin.overdueDesc" :class="{'auto-filled': fin.overdueDesc}" style="width:120px;"><br>
+                                <input type="checkbox" v-model="fin.overdueNo">否
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <th style="width: 30%;">10.是否签订物的担保（抵押、质押）合同</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.collateralContract">是 签订时间：<input type="text" v-model="fin.collateralContractDate" :class="{'auto-filled': fin.collateralContractDate}" style="width:150px;"><br>
+                                <input type="checkbox" v-model="fin.collateralContractNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>11.担保人、担保物</th>
+                            <td>
+                                担保人：<input type="text" v-model="fin.collateralPerson" :class="{'auto-filled': fin.collateralPerson}" style="width:150px;"><br>
+                                担保物：<input type="text" v-model="fin.collateralType" :class="{'auto-filled': fin.collateralType}" style="width:100px;"> 描述：<input type="text" v-model="fin.collateralDesc" :class="{'auto-filled': fin.collateralDesc}" style="width:200px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>12.是否最高额担保（抵押、质押）</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.maxCollateral">是<br>
+                                <input type="checkbox" v-model="fin.maxCollateralNo">否<br>
+                                担保债权的确定时间：<input type="text" v-model="fin.maxCollateralDate" :class="{'auto-filled': fin.maxCollateralDate}" style="width:150px;"><br>
+                                担保额度：<input type="text" v-model="fin.maxCollateralAmount" :class="{'auto-filled': fin.maxCollateralAmount}" style="width:100px;"> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>13.是否办理抵押、质押登记</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.registrationYes">是 正式登记<input type="checkbox" v-model="fin.registrationPreview">预告登记<br>
+                                登记编号：<input type="text" v-model="fin.registrationNo" :class="{'auto-filled': fin.registrationNo}" style="width:150px;"><br>
+                                <input type="checkbox" v-model="fin.registrationNoFlag">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>14.是否签订保证合同 / 保函</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.guaranteeContract">是 签订时间：<input type="text" v-model="fin.guaranteeContractDate" :class="{'auto-filled': fin.guaranteeContractDate}" style="width:150px;"><br>
+                                保证人：<input type="text" v-model="fin.guarantorDetailName" :class="{'auto-filled': fin.guarantorDetailName}" style="width:150px;"><br>
+                                主要内容：<input type="text" v-model="fin.guaranteeContent" :class="{'auto-filled': fin.guaranteeContent}" style="width:250px;"><br>
+                                <input type="checkbox" v-model="fin.guaranteeContractNo">否
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>15.保证方式</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.guaranteeGeneral">一般保证<br>
+                                <input type="checkbox" v-model="fin.guaranteeJoint">连带责任保证
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>16.其他担保方式</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.otherGuaranteeYes">是 形式：<input type="text" v-model="fin.otherGuaranteeForm" :class="{'auto-filled': fin.otherGuaranteeForm}" style="width:100px;">
+                                签订时间：<input type="text" v-model="fin.otherGuaranteeDate" :class="{'auto-filled': fin.otherGuaranteeDate}" style="width:150px;"><br>
+                                <input type="checkbox" v-model="fin.otherGuaranteeNo">否
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="element-table" cellspacing="0" cellpadding="6">
+                        <tr>
+                            <th style="width: 30%;">17.请求承担责任的依据</th>
+                            <td>
+                                合同约定：<input type="text" v-model="fin.factClaimContract" :class="{'auto-filled': fin.factClaimContract}" style="width:250px;"><br>
+                                法律规定：<input type="text" v-model="fin.factClaimLaw" :class="{'auto-filled': fin.factClaimLaw}" style="width:250px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>18.其他需要说明的内容（可另附页）</th>
+                            <td><input type="text" v-model="fin.factOther" :class="{'auto-filled': fin.factOther}" style="width:350px;"></td>
+                        </tr>
+                        <tr>
+                            <th>19.证据清单（可另附页）</th>
+                            <td><textarea v-model="fin.factEvidence" :class="{'auto-filled': fin.factEvidence}" rows="3" style="width:100%; border:none; border-bottom:1px solid #000; background:transparent; font-size:14px; font-family:仿宋,serif; resize:vertical;"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-title"><strong>对纠纷解决方式的意愿</strong></td>
+                        </tr>
+                        <tr>
+                            <th>是否了解调解作为非诉讼纠纷解决方式，能及时、高效、低成本、不伤和气地解决纠纷</th>
+                            <td><input type="checkbox" v-model="fin.mediationUnderstandYes">了解
+                                <input type="checkbox" v-model="fin.mediationUnderstandNo">不了解</td>
+                        </tr>
+                        <tr>
+                            <th>是否了解先行调解解决纠纷的好处</th>
+                            <td>
+                                1. 立案后选择先行调解的，可以很快启动调解程序。如不同意调解，法院将依程序开庭审理案件，但可能需要经过较长一段时间的排期等待，且审理、执行周期相对较长。<br>
+                                <input type="checkbox" v-model="fin.mediationBenefit1Yes">了解 <input type="checkbox" v-model="fin.mediationBenefit1No">不了解<br><br>
+                                2. 选择先行调解，调解成功且自动履行的免交诉讼费用，申请司法确认的不交纳诉讼费用，要求出具调解书的减半交纳诉讼费用。<br>
+                                <input type="checkbox" v-model="fin.mediationBenefit2Yes">了解 <input type="checkbox" v-model="fin.mediationBenefit2No">不了解<br><br>
+                                3. 首次调解不成功，但仍有继续调解意愿的，可以选择更换调解组织和调解员再进行调解。调解无法达成一致意见的，法院将依程序排期开庭。<br>
+                                <input type="checkbox" v-model="fin.mediationBenefit3Yes">了解 <input type="checkbox" v-model="fin.mediationBenefit3No">不了解<br><br>
+                                4. 依照法律规定，调解具有保密性要求，调解过程不公开，调解协议未经当事人同意不得公开。<br>
+                                <input type="checkbox" v-model="fin.mediationBenefit4Yes">了解 <input type="checkbox" v-model="fin.mediationBenefit4No">不了解<br><br>
+                                5. 调解达成的协议具有法律效力，可以依照法律规定申请司法确认，具有强制执行效力。<br>
+                                <input type="checkbox" v-model="fin.mediationBenefit5Yes">了解 <input type="checkbox" v-model="fin.mediationBenefit5No">不了解
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>是否考虑先行调解</th>
+                            <td>
+                                <input type="checkbox" v-model="fin.mediationConsiderYes">是<br>
+                                <input type="checkbox" v-model="fin.mediationConsiderNo">否<br>
+                                <input type="checkbox" v-model="fin.mediationConsiderUncertain">暂不确定，想要了解更多内容
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="signature">
+                        此致 <u style="display:inline-block; min-width:200px; border-bottom:1px solid #000; text-align:center; font-size:14px; font-family:仿宋,serif;">{{ fin.courtName }}</u> 人民法院<br><br>
+                        具状人（签字、盖章）：<u style="display:inline-block; min-width:280px; border-bottom:1px solid #000; font-size:14px; font-family:仿宋,serif;">{{ fin.signParty }}</u><br><br>
+                        日期：<u style="display:inline-block; min-width:180px; border-bottom:1px solid #000; font-size:14px; font-family:仿宋,serif;">{{ fin.signDate }}</u>
+                    </div>
+                    <!-- 页面底部固定声明 -->
+                    <div class="risk-tip-bottom">
+                        <strong>重要声明：</strong><br>
+                        1.本AI生成文书仅为格式与要素辅助，不代表法院立案标准或司法观点；<br>
+                        2.请您仔细核对当事人信息、金额计算、合同约定、事实理由等全部内容；<br>
+                        3.因信息填写错误、内容不实或使用不当引发的一切法律责任，均由使用者自行承担，本AI及开发方不承担任何法律责任。
+                    </div>
+                </div>
+            </el-tab-pane>
+        </el-tabs>
+    </el-card>
+</div>
+</div>
+
+<script>
+console.log('=== PLIC 应用启动 ===');
+console.log('Vue版本:', typeof Vue !== 'undefined' ? '已加载' : '未加载');
+console.log('ElementPlus版本:', typeof ElementPlus !== 'undefined' ? '已加载' : '未加载');
+
+const { createApp, ref, reactive } = Vue;
+console.log('Vue.createApp准备完成');
+const app = createApp({
+    setup() {
+        const caseType = ref('finance');
+        const caseType2 = ref('property');
+        const caseText = ref('');
+        const caseText2 = ref('');
+        const result = ref(null);
+        const error = ref('');
+        const loading = ref(false);
+
+        // 物业服务合同纠纷数据
+        const prop = reactive({
+            // 原告法人
+            pName: '', pAddr: '', pRegAddr: '', pLegal: '', pPosition: '', pPhone: '', pUscc: '',
+            pTypeLLC: false, pTypeJointStock: false, pTypeListed: false, pTypeOtherCorp: false,
+            pOwnerState: false, pOwnerStateControl: false, pOwnerStateParticipate: false, pOwnerPrivate: false,
+            pOwnerOther: '',
+            // 代理人
+            hasAgent: false, noAgent: false,
+            agent1Name: '', agent1Unit: '', agent1Title: '', agent1Phone: '', agent1General: false, agent1Special: false, agent1AuthDesc: '',
+            agent2Name: '', agent2Unit: '', agent2Title: '', agent2Phone: '', agent2General: false, agent2Special: false, agent2AuthDesc: '',
+            // 被告1
+            dName: '', dMale: false, dFemale: false, dBirth: '', dNation: '', dWork: '', dPosition: '', dPhone: '', dAddr: '', dLiveAddr: '', dIdType: '', dIdNo: '',
+            // 被告2
+            d2Name: '', d2Male: false, d2Female: false, d2Birth: '', d2Nation: '', d2Work: '', d2Position: '', d2Phone: '', d2Addr: '', d2LiveAddr: '', d2IdType: '', d2IdNo: '',
+            // 诉讼请求
+            claimText: '', feeEndDate: '', feeAmount: '',
+            penaltyEndDate: '', penaltyAmount: '', payableToEnd: false, payableToEndNo: false,
+            claimFeeYes: false, claimFeeNo: false, otherClaim: '', claimTotal: '',
+            // 管辖与保全
+            hasJurisdiction: false, noJurisdiction: false, jurisdictionText: '',
+            hasPreservation: false, noPreservation: false, preservationCourt: '', preservationDate: '', preservationCaseNo: '',
+            // 事实与理由
+            factFullText: '',
+            factContractName: '', factContractNo: '', factContractDate: '', factContractAddr: '', factContract: '',
+            factOwnerOrg: '', factPropCompany: '',
+            factLocation: '', factArea: '', factOwner: '',
+            factFeeStd: '',
+            factStartYear: '', factStartMonth: '', factStartDay: '',
+            factEndYear: '', factEndMonth: '', factEndDay: '',
+            factServiceContinue: '',
+            factPayMethod: '', factPenaltyStd: '',
+            owedAmount: '', owedCalc: '',
+            penaltyAmount2: '', penaltyCalc: '',
+            factCollectionDate: '', factCollection: '', factRecord: '',
+            factClaimContract: '', factClaimLaw: '',
+            factOther: '',
+            factEvidence: '',
+            // 调解意愿
+            mediationUnderstandYes: false, mediationUnderstandNo: false,
+            mediationBenefit1Yes: false, mediationBenefit1No: false,
+            mediationBenefit2Yes: false, mediationBenefit2No: false,
+            mediationBenefit3Yes: false, mediationBenefit3No: false,
+            mediationBenefit4Yes: false, mediationBenefit4No: false,
+            mediationBenefit5Yes: false, mediationBenefit5No: false,
+            mediationConsiderYes: false, mediationConsiderNo: false, mediationConsiderUncertain: false,
+            // 具状信息
+            signParty: '', signDate: '', courtName: '',
+            // 联系方式变更
+            hasContactChange: false,
+            contactChangeDate: '', contactChangeReason: '', newPhone: '', newAddr: ''
+        });
+
+        // 金融借款合同纠纷数据
+        const fin = reactive({
+            // 原告自然人
+            pName: '', pMale: false, pFemale: false, pBirth: '', pNation: '', pWork: '', pPosition: '', pPhone: '', pAddr: '', pLiveAddr: '', pIdType: '', pIdNo: '',
+            // 原告法人
+            fLenderName: '', fLenderAddr: '', fLenderRegAddr: '', fLegalRep: '', fLegalRepPosition: '', fLenderPhone: '', fLenderUscc: '',
+            fTypeLLC: false, fTypeJointStock: false, fTypeListed: false, fTypeOtherCorp: false,
+            fTypeInstitution: false, fTypeSocialGroup: false, fTypeFund: false, fTypeServiceOrg: false,
+            fTypeGov: false, fTypeRuralCollective: false, fTypeUrbanRuralCoop: false, fTypeGrassroots: false,
+            fTypeSole: false, fTypePartnership: false, fTypeNoLegalService: false,
+            fOwnerState: false, fOwnerStateControl: false, fOwnerStateParticipate: false, fOwnerPrivate: false, fOwnerOther: '',
+            // 代理人
+            hasAgent: false, noAgent: false,
+            agentName: '', agentUnit: '', agentTitle: '', agentPhone: '',
+            agentGeneral: false, agentSpecial: false, agentAuthDesc: '',
+            // 被告自然人
+            fBorrowerName: '', dMale: false, dFemale: false, dBirth: '', dNation: '', dWork: '', dPosition: '', dPhone: '',
+            fBorrowerAddr: '', dLiveAddr: '', dIdType: '', dIdNo: '',
+            // 被告法人
+            dEntityName: '', dEntityAddr: '', dEntityRegAddr: '', dEntityLegal: '', dEntityPosition: '', dEntityPhone: '', dEntityUscc: '',
+            dEntityType: '', dEntityOwnerType: '',
+            // 诉讼请求
+            claimText: '',
+            principalCutoffDate: '', fPrincipalAmount: '',
+            interestCutoffDate: '', fInterestAmount: '', fCompoundAmount: '', fPenaltyAmount: '', interestCalc: '',
+            payableToEnd: false, payableToEndNo: false,
+            earlyRepaymentYes: false, earlyRepaymentAccel: false, terminationYes: false, earlyRepaymentNo: false,
+            collateralYes: false, collateralNo: false, collateralClaimDesc: '',
+            expenseYes: false, expenseNo: false, expenseDesc: '',
+            claimFeeYes: false, claimFeeNo: false,
+            otherClaim: '', claimTotal: '',
+            // 管辖与保全
+            hasJurisdiction: false, noJurisdiction: false, jurisdictionText: '',
+            hasPreservation: false, noPreservation: false, preservationCourt: '', preservationDate: '', preservationCaseNo: '',
+            // 事实与理由
+            factFullText: '',
+            factContractName: '', factContractNo: '', factContractDate: '', factContractLocation: '', factContractInfo: '',
+            lenderName: '', borrowerName: '', coRepayerName: '', guarantorName: '',
+            fPrincipalAgreed: '', fPrincipalActual: '',
+            maturedYes: false, maturedNo: false,
+            loanStartYear: '', loanStartMonth: '', loanStartDay: '',
+            loanEndYear: '', loanEndMonth: '', loanEndDay: '',
+            fInterestRate: '', fOverdueRate: '', compound: false, compoundRule: '', fPenaltyRate: '',
+            fDisbursementDate: '', fDisbursementAmount: '',
+            fRepayEqualPrincipalInterest: false, fRepayEqualPrincipal: false,
+            fRepayOneTime: false, fRepayMonthlyInterest: false,
+            fRepayQuarterlyInterest: false, fRepayYearlyInterest: false, fRepayOther: '',
+            fRepaidPrincipal: '', fRepaidInterest: '', fInterestPaidToDate: '',
+            overdueYes: false, overdueNo: false, overdueDesc: '',
+            collateralContract: false, collateralContractNo: false, collateralContractDate: '',
+            collateralPerson: '', collateralType: '', collateralDesc: '',
+            maxCollateral: false, maxCollateralNo: false, maxCollateralDate: '', maxCollateralAmount: '',
+            registrationYes: false, registrationPreview: false, registrationNoFlag: false, registrationNo: '',
+            guaranteeContract: false, guaranteeContractNo: false, guaranteeContractDate: '',
+            guarantorDetailName: '', guaranteeContent: '',
+            guaranteeGeneral: false, guaranteeJoint: false,
+            otherGuaranteeYes: false, otherGuaranteeNo: false, otherGuaranteeForm: '', otherGuaranteeDate: '',
+            factClaimContract: '', factClaimLaw: '',
+            factOther: '', factEvidence: '',
+            // 调解意愿
+            mediationUnderstandYes: false, mediationUnderstandNo: false,
+            mediationBenefit1Yes: false, mediationBenefit1No: false,
+            mediationBenefit2Yes: false, mediationBenefit2No: false,
+            mediationBenefit3Yes: false, mediationBenefit3No: false,
+            mediationBenefit4Yes: false, mediationBenefit4No: false,
+            mediationBenefit5Yes: false, mediationBenefit5No: false,
+            mediationConsiderYes: false, mediationConsiderNo: false, mediationConsiderUncertain: false,
+            // 具状信息
+            signParty: '', signDate: '', courtName: '',
+            // 联系方式变更
+            hasContactChange: false,
+            contactChangeDate: '', contactChangeReason: '', newPhone: '', newAddr: ''
+        });
+
+        // 智能分析
+        const analyze = async () => {
+            if (!caseText.value.trim()) { error.value = '请填写案情描述'; return; }
+            error.value = ''; result.value = null; loading.value = true;
+            try {
+                const resp = await fetch('http://localhost:8001/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ case_type: caseType.value, text: caseText.value })
+                });
+                if (!resp.ok) throw new Error('后端服务未启动');
+                result.value = await resp.json();
+            } catch (err) {
+                error.value = err.message || '后端服务未启动，请先运行 python main.py';
+            } finally {
+                loading.value = false;
+            }
+        };
+
+        // 大模型智能提取（如果后端配置了API Key）
+        const smartExtract = async () => {
+            const text = caseText2.value;
+            if (!text.trim()) { alert('请输入起诉状文本'); return; }
+            if (!confirm('使用大模型智能提取？需要配置 OPENAI_API_KEY')) return;
+
+            loading.value = true;
+            try {
+                const resp = await fetch('http://localhost:8001/api/extract', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ case_type: caseType2.value, text: text })
+                });
+                if (!resp.ok) {
+                    const err = await resp.json();
+                    throw new Error(err.detail || '提取失败');
+                }
+                const data = await resp.json();
+                if (data.success && data.data) {
+                    // 将大模型返回的数据填充到表单
+                    const extracted = data.data;
+                    for (const [key, value] of Object.entries(extracted)) {
+                        if (prop.hasOwnProperty(key)) {
+                            if (typeof prop[key] === 'boolean') {
+                                if (value) prop[key] = true;
+                            } else if (value) {
+                                prop[key] = String(value);
+                            }
+                        }
+                    }
+                    alert('大模型智能提取完成！');
+                }
+            } catch (err) {
+                alert('大模型提取失败：' + err.message + '\n请确保后端服务已启动且已配置 OPENAI_API_KEY');
+            } finally {
+                loading.value = false;
+            }
+        };
+
+        const fillExample = () => {
+            if (caseType.value === 'finance') {
+                caseText.value = '某银行于2024年1月1日向借款人张三发放贷款500000元，约定年利率4.2%，到期日2027年1月1日。张三自2025年1月起未还款，构成逾期。';
+            } else {
+                caseText.value = '某物业公司为某小区提供物业服务，业主李四名下房屋自2024年1月至2024年12月拖欠物业费共计2800元。物业公司多次催收未果。';
+            }
+        };
+
+        // =====================
+        // 从文本提取要素（按钮A）
+        // =====================
+        const generateForm = () => {
+            const text = caseText2.value;
+            if (!text.trim()) { alert('请输入案情描述'); return; }
+            if (caseType2.value === 'property') {
+                doPropertyExtraction();
+                ElementPlus.ElMessage.success('物业服务合同纠纷表单已回填');
+            } else if (caseType2.value === 'finance') {
+                doFinanceExtraction();
+                ElementPlus.ElMessage.success('金融借款合同纠纷表单已回填');
+            }
+        };
+
+        // =====================
+        // 物业提取核心逻辑
+        // =====================
+        const doPropertyExtraction = () => {
+            const text = caseText2.value;
+            const pm = text.match(/原告[：:]\s*([^\n]+)/);
+            if (pm) prop.pName = pm[1].replace(/原告[：:]\s*/, '').trim();
+            const paddr = text.match(/住所地[：:]\s*([^\n]+)/);
+            if (paddr) prop.pAddr = paddr[1].replace(/住所地[：:]\s*/, '').trim();
+            const uscc = text.match(/统一社会信用代码[：:]\s*([A-Z0-9]+)/i);
+            if (uscc) prop.pUscc = uscc[1].trim();
+            const lp = text.match(/法定代表人[：:]\s*([\u4e00-\u9fa5]{2,4})(?:，|,|职务[：:])?([^\n，,]*)?/);
+            if (lp) { prop.pLegal = lp[1].trim(); if (lp[2]) prop.pPosition = lp[2].replace(/职务[：:]\s*/, '').trim(); }
+            const pPhone = text.match(/联系电话[：:]\s*([0-9-]+)/);
+            if (pPhone) prop.pPhone = pPhone[1].trim();
+            prop.hasAgent = false; prop.noAgent = false;
+            if (/代理人1/.test(text)) {
+                prop.hasAgent = true;
+                const m1 = text.match(/代理人1[：:]\s*([^\n]+)/);
+                if (m1) {
+                    const info = m1[1];
+                    const nm = info.match(/^([\u4e00-\u9fa5]{2,4})/);
+                    if (nm) prop.agent1Name = nm[1];
+                    const um = info.match(/，([^，]+(?:事务所|公司|中心|律所))/);
+                    if (um) prop.agent1Unit = um[1];
+                    const tm = info.match(/，([\u4e00-\u9fa5]{2}(?:律师|员工|主任|合伙人))/);
+                    if (tm) prop.agent1Title = tm[1];
+                    if (/特别授权/.test(info)) prop.agent1Special = true;
+                    if (/一般授权/.test(info)) prop.agent1General = true;
+                }
+            }
+            if (/代理人2/.test(text)) {
+                const m2 = text.match(/代理人2[：:]\s*([^\n]+)/);
+                if (m2) {
+                    const info = m2[1];
+                    const nm = info.match(/^([\u4e00-\u9fa5]{2,4})/);
+                    if (nm) prop.agent2Name = nm[1];
+                    const um = info.match(/，([^，]+(?:事务所|公司|中心|律所))/);
+                    if (um) prop.agent2Unit = um[1];
+                    const tm = info.match(/，([\u4e00-\u9fa5]{2}(?:律师|员工|主任|合伙人))/);
+                    if (tm) prop.agent2Title = tm[1];
+                    if (/特别授权/.test(info)) prop.agent2Special = true;
+                    if (/一般授权/.test(info)) prop.agent2General = true;
+                }
+            }
+            const d1m = text.match(/被告[：:]([\s\S]*?)(?=被告[：:]|$)/);
+            if (d1m) {
+                const info = d1m[1];
+                const nm = info.match(/^([\u4e00-\u9fa5]{2,4})/);
+                if (nm) prop.dName = nm[1];
+                if (/男/.test(info) && !/女/.test(info)) prop.dMale = true;
+                if (/女/.test(info)) prop.dFemale = true;
+                const bd = info.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+                if (bd) prop.dBirth = bd[1] + '年' + bd[2] + '月' + bd[3] + '日';
+                if (/汉族/.test(info)) prop.dNation = '汉族';
+                const addr = info.match(/住([^\n，,。]+)/);
+                if (addr) prop.dAddr = addr[1].trim();
+                const id = info.match(/(420\d{15}[A-Za-z0-9]{1,2})/);
+                if (id) prop.dIdNo = id[1];
+                const ph = info.match(/(1[3-9]\d{9,10})/);
+                if (ph) prop.dPhone = ph[1];
+            }
+            const d2parts = text.split(/被告[：:]/);
+            if (d2parts.length >= 3) {
+                const info = d2parts[2];
+                const nm = info.match(/^([\u4e00-\u9fa5]{2,4})/);
+                if (nm) prop.d2Name = nm[1];
+                if (/男/.test(info) && !/女/.test(info)) prop.d2Male = true;
+                if (/女/.test(info)) prop.d2Female = true;
+                const bd = info.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+                if (bd) prop.d2Birth = bd[1] + '年' + bd[2] + '月' + bd[3] + '日';
+                if (/汉族/.test(info)) prop.d2Nation = '汉族';
+                const addr = info.match(/住([^\n，,。]+)/);
+                if (addr) prop.d2Addr = addr[1].trim();
+                const id = info.match(/(420\d{15}[A-Za-z0-9]{1,2})/);
+                if (id) prop.d2IdNo = id[1];
+                const ph = info.match(/(1[3-9]\d{9,10})/);
+                if (ph) prop.d2Phone = ph[1];
+            }
+            const feeInfo = text.match(/物业费[：:][^\n]*截至\s*([0-9]{4})\s*年\s*([0-9]{1,2})\s*月\s*([0-9]{1,2})\s*日[^\d]*欠\s*([0-9,]+(?:\.\d+)?)\s*元/);
+            if (feeInfo) {
+                prop.feeEndDate = feeInfo[1] + '年' + feeInfo[2] + '月' + feeInfo[3] + '日';
+                prop.feeAmount = feeInfo[4].replace(/,/g, '');
+                prop.owedAmount = feeInfo[4].replace(/,/g, '');
+            }
+            const penaltyInfo = text.match(/违约金[：:][^\n]*截至\s*([0-9]{4})\s*年\s*([0-9]{1,2})\s*月\s*([0-9]{1,2})\s*日[^\d（]*（[^）]+）?[^\d]*欠\s*([0-9,]+(?:\.\d+)?)\s*元/);
+            if (penaltyInfo) { prop.penaltyEndDate = penaltyInfo[1] + '年' + penaltyInfo[2] + '月' + penaltyInfo[3] + '日'; prop.penaltyAmount = penaltyInfo[4].replace(/,/g, ''); }
+            const area = text.match(/面积[：:]\s*([0-9.,]+\s*平方米)/);
+            if (area) prop.factArea = area[1].trim();
+            const feeStd = text.match(/每月每平方米\s*([0-9.,]+)\s*元/);
+            if (feeStd) prop.factFeeStd = feeStd[1].replace(/,/g, '') + '元/月/㎡';
+            const collectionMatch = text.match(/已通过([^。]+)等方式多次催告[^。]*最后?一次?催收[^。]*([0-9]{4}年[0-9]{1,2}月[0-9]{1,2}日)/);
+            if (collectionMatch) { prop.factCollection = '原告已通过' + collectionMatch[1] + '等方式多次催告，最后一次催收时间为' + collectionMatch[2] + '，被告仍拒绝支付'; }
+            else if (/催[收告]/.test(text)) { prop.factCollection = '经多次催收，被告仍未支付'; }
+            const contractMatch = text.match(/(\d{4}年\d{1,2}月\d{1,2}日)[^原告]*原告与([^《]+)签订《([^》]+)》/);
+            if (contractMatch) { prop.factContract = contractMatch[3] + '；签订时间：' + contractMatch[1] + '；签订地点：' + contractMatch[2].trim(); }
+            const contractAddrMatch = text.match(/签订(?:地|地?点)[：:]\s*([^；\n]+)/);
+            if (contractAddrMatch) prop.factContractAddr = contractAddrMatch[1].trim();
+            const propCompanyMatch = text.match(/物业服务[人企业][：:]\s*([^\n，,。；]+)/);
+            if (propCompanyMatch) prop.factPropCompany = propCompanyMatch[1].trim();
+            const ownerMatch = text.match(/业主[^和]*建设单位[：:]\s*([^\n，,。；]+)/);
+            if (ownerMatch) { prop.factOwner = ownerMatch[1].trim(); }
+            else { const ownerList = text.match(/所有权人[：:]\s*([^\n，,。；]+)/); if (ownerList) prop.factOwner = ownerList[1].trim(); }
+            const locationMatch = text.match(/东方新城小区?[^0-9]*([0-9]+栋[^，,。；\n]+)/);
+            if (locationMatch) prop.factLocation = '襄阳市襄州区东方新城小区' + locationMatch[1];
+            const payMethodMatch = text.match(/物业费按([^，,。]+)交纳/);
+            if (payMethodMatch) prop.factPayMethod = '按' + payMethodMatch[1] + '交纳';
+            const penaltyStdMatch = text.match(/违约金?按欠费金额的(\d+%)/);
+            if (penaltyStdMatch) prop.factPenaltyStd = '按欠费金额的' + penaltyStdMatch[1] + '主张违约金';
+            const calcMatch = text.match(/计算公式[：:]\s*([^；。]+)/);
+            if (calcMatch) prop.owedCalc = calcMatch[1].trim();
+            const penaltyCalcMatch = text.match(/(?:违约金|应付违约金)[^=]*=\s*([^；。\n]+)/);
+            if (penaltyCalcMatch) prop.penaltyCalc = penaltyCalcMatch[1].trim();
+            const otherMatch = text.match(/业委会任期届满[^。]+原合同继续有效[^。]*。[。]?/);
+            if (otherMatch) prop.factOther = otherMatch[0].trim();
+            const lawMatches = text.match(/《中华人民共和国民法典》(第九百[一二三四五六七八九零百\d]+条)/g);
+            if (lawMatches) {
+                if (lawMatches[0]) prop.factClaimLaw1 = '《中华人民共和国民法典》' + lawMatches[0].replace('《中华人民共和国民法典》', '');
+                if (lawMatches[1]) prop.factClaimLaw2 = '《中华人民共和国民法典》' + lawMatches[1].replace('《中华人民共和国民法典》', '');
+                if (lawMatches[2]) prop.factClaimLaw3 = '《中华人民共和国民法典》' + lawMatches[2].replace('《中华人民共和国民法典》', '');
+            }
+            const claimContractMatch = text.match(/合同约定[：:]\s*《([^》]+)》/);
+            if (claimContractMatch) prop.factClaimContract = '《' + claimContractMatch[1] + '》相关条款（具体条号以合同为准）';
+            const evidenceMatch = text.match(/证据清单[：:]([\s\S]*?)(?=此致|$)/);
+            if (evidenceMatch) prop.factEvidence = evidenceMatch[1].trim().replace(/\n/g, '；');
+            if (/诉讼[费目].*?承担/.test(text)) { prop.claimFeeYes = true; prop.claimFeeNo = false; }
+            if (pm) { const corpName = pm[1].replace(/[：:]\s*/, '').trim(); prop.factPropCompany = corpName; }
+            if (/联系方式[变更更改]/i.test(text)) {
+                prop.hasContactChange = true;
+                const changeReasonMatch = text.match(/联系方式[变更更改].*?[原因因由][:：]\s*([^\n。；]+)/);
+                if (changeReasonMatch) prop.contactChangeReason = changeReasonMatch[1].trim();
+                const newPhoneMatch = text.match(/新电话[号码][:：]\s*(1[3-9]\d{9})/);
+                if (newPhoneMatch) prop.newPhone = newPhoneMatch[1];
+                const newAddrMatch = text.match(/新地址[址地][:：]\s*([^\n。；]+)/);
+                if (newAddrMatch) prop.newAddr = newAddrMatch[1].trim();
+            }
+        };
+
+        // =====================
+        // 金融提取核心逻辑
+        // =====================
+        const doFinanceExtraction = () => {
+            const text = caseText2.value;
+            const pm = text.match(/原告[：:]\s*([^\n，,。；（【]+)/);
+            if (pm) fin.fLenderName = pm[1].trim();
+            const bm = text.match(/被告[：:]\s*([^\n，,。；（【]+)/);
+            if (bm) { fin.fBorrowerName = bm[1].replace(/[，,]/g,'').trim(); fin.fBorrowerAddr = ''; }
+            const am = text.match(/(\d+(?:,\d{3})*(?:\.\d+)?)\s*万?元/);
+            if (am) { let val = am[1].replace(/,/g,''); if (text.includes('万')) val = (parseFloat(val) * 10000).toString(); fin.fPrincipalAmount = val; }
+            const rm = text.match(/年利率\s*(\d+(?:\.\d+)?)/);
+            if (rm) { fin.fInterestRate = rm[1]; fin.rateYes = true; }
+            if (/逾期/.test(text)) { fin.overdueYes = true; fin.overdueNo = false; }
+            const regAddr = text.match(/注册地[：:]\s*([^\n]+)/);
+            if (regAddr) fin.fLenderRegAddr = regAddr[1].replace(/注册地[：:]\s*/, '').trim();
+            const totalMatch = text.match(/标的总额[：:]\s*([0-9.,]+)\s*元/);
+            if (totalMatch) fin.claimTotal = totalMatch[1].trim();
+            const contractInfoMatch = text.match(/《([^》]+)》[^\n]*于(\d{4}年\d{1,2}月\d{1,2}日)/);
+            if (contractInfoMatch) fin.factContractInfo = '《' + contractInfoMatch[1] + '》于' + contractInfoMatch[2] + '签订';
+            const loanAmtMatch = text.match(/贷款[总额本金][：:]\s*([0-9.,]+)/);
+            if (loanAmtMatch) fin.fPrincipalAgreed = loanAmtMatch[1].replace(/,/g, '');
+            const rateMatch = text.match(/(?:年利率|利率)\s*(\d+(?:\.\d+)?)\s*%/);
+            if (rateMatch) fin.fInterestRate = rateMatch[1];
+            const overdueRateMatch = text.match(/逾期[利率罚息][上浮]?\s*(\d+(?:\.\d+)?)\s*%/);
+            if (overdueRateMatch) { fin.fOverdueRate = overdueRateMatch[1]; fin.penaltyRateYes = true; }
+            const disburseMatch = text.match(/发放[日期时间][：:]\s*(\d{4}年\d{1,2}月\d{1,2}日)/);
+            if (disburseMatch) fin.fDisbursementDate = disburseMatch[1];
+            const repaidPmatch = text.match(/已还本金[：:]\s*([0-9.,]+)/);
+            if (repaidPmatch) fin.fRepaidPrincipal = repaidPmatch[1].replace(/,/g, '');
+            const repaidImatch = text.match(/已还利息[：:]\s*([0-9.,]+)/);
+            if (repaidImatch) fin.fRepaidInterest = repaidImatch[1].replace(/,/g, '');
+            const owePmatch = text.match(/尚欠本金[：:]\s*([0-9.,]+)/);
+            if (owePmatch) fin.fPrincipalAmount = owePmatch[1].replace(/,/g, '');
+            const oweImatch = text.match(/尚欠利息[：:]\s*([0-9.,]+)/);
+            if (oweImatch) fin.fInterestAmount = oweImatch[1].replace(/,/g, '');
+            const signDateMatch = text.match(/日期[：:]\s*(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+            if (signDateMatch) fin.signDate = signDateMatch[1] + '年' + signDateMatch[2] + '月' + signDateMatch[3] + '日';
+            const evidenceMatch = text.match(/证据清单[：:]([\s\S]*?)(?=此致|$)/);
+            if (evidenceMatch) fin.factEvidence = evidenceMatch[1].trim().replace(/\n/g, '；');
+            const lawMatch = text.match(/《中华人民共和国民法典》[^\n]+/);
+            if (lawMatch) fin.factClaimLaw = lawMatch[0].trim();
+        };
+
+        // =====================
+        // 生成前统一入口（按钮B）
+        // =====================
+        const handleGenerateBeforeSubmit = () => {
+            if (caseType2.value === 'property') {
+                handleGeneratePropertyBeforeSubmit();
+            } else if (caseType2.value === 'finance') {
+                handleGenerateFinanceBeforeSubmit();
+            } else {
+                ElementPlus.ElMessage.warning('请选择案由类型');
+            }
+        };
+
+        // 辅助：清洗金额
+        const cleanAmount = (v) => {
+            if (v === null || v === undefined) return 0;
+            const s = String(v).replace(/[,\s元人民币￥]/g, '').trim();
+            return Number(s) || 0;
+        };
+
+        // 辅助：解析中文日期
+        const parseCnDate = (dateStr) => {
+            if (!dateStr) return null;
+            const m = String(dateStr).match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+            if (!m) return null;
+            return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+        };
+
+        // 辅助：判断是否超过3年
+        const isOverThreeYears = (dateStr) => {
+            const d = parseCnDate(dateStr);
+            if (!d) return false;
+            return new Date().getTime() - d.getTime() > 3 * 365 * 24 * 60 * 60 * 1000;
+        };
+
+        // 辅助：物业必填字段校验
+        const validatePropertyRequired = () => {
+            const missing = [];
+            const requiredFields = [
+                { key: 'pName', label: '原告名称' },
+                { key: 'dName', label: '被告姓名' },
+                { key: 'feeAmount', label: '物业费金额' },
+                { key: 'factLocation', label: '物业坐落位置' },
+                { key: 'factArea', label: '物业面积' },
+                { key: 'factFeeStd', label: '物业费标准' },
+                { key: 'factClaimLaw', label: '法律依据' }
+            ];
+            requiredFields.forEach(item => {
+                const value = prop[item.key];
+                if (!value || String(value).trim() === '') missing.push(item.label);
+            });
+            return missing;
+        };
+
+        // 辅助：收集物业法律风险
+        const collectPropertyRisks = () => {
+            const risks = [];
+            const penalty = Math.max(cleanAmount(prop.penaltyAmount), cleanAmount(prop.penaltyAmount2));
+            if (penalty > 0) risks.push({
+                title: '违约金风险',
+                content: '司法实践中，物业服务合同纠纷的违约金诉求通常难以获得法院全额支持，常见原因包括：违约金约定过高；物业公司未举证实际损失；物业服务存在瑕疵；法院普遍倾向不支持或大幅调低违约金。请谨慎主张违约金金额，AI生成内容不代表法院会支持。'
+            });
+            const sc = (prop.factServiceContinue || '') + ' ' + (prop.factFullText || '');
+            if (/继续服务|到期后继续服务|事实服务/.test(sc)) risks.push({
+                title: '事实服务风险',
+                content: '合同到期后的"事实服务"可以主张物业费，但必须满足：业主实际接受服务；物业公司持续提供服务；无明确拒绝服务的证据。缺少任一条件，法院可能不支持到期后费用。AI无法判断是否存在事实服务，请自行核实。'
+            });
+            if (isOverThreeYears(prop.feeEndDate)) risks.push({
+                title: '诉讼时效风险',
+                content: '物业费适用诉讼时效（通常3年）；超过时效部分法院不予保护；必须提供催缴记录、短信、挂号信等证据中断时效。AI无法判断时效是否届满，请自行核实。'
+            });
+            if (!prop.factCollection || !String(prop.factCollection).trim()) risks.push({
+                title: '催缴义务风险',
+                content: '根据《民法典》及司法实践：物业公司必须先行书面催交；未催缴直接起诉，法院可能驳回或不予支持。请确保已完成催缴并留存证据。'
+            });
+            return risks;
+        };
+
+        // 辅助：构建风险文本
+        const buildRiskHtml = (risks) => {
+            return risks.map((r, i) => (i+1) + '.【' + r.title + '】\n' + r.content).join('\n\n');
+        };
+
+        // 辅助：构建最终确认文本
+        const buildFinalConfirmHtml = () => {
+            return '即将为您生成要素式起诉状。请确认：<br>1.所有信息真实、准确、完整；<br>2.金额计算无误；<br>3.已核对当事人身份信息。<br><br>生成后请务必自行检查，本AI仅提供效率辅助，不承担法律责任。';
+        };
+
+        // =====================
+        // 物业版生成前流程
+        // =====================
+        const handleGeneratePropertyBeforeSubmit = async () => {
+            const missing = validatePropertyRequired();
+            if (missing.length) {
+                await ElementPlus.ElMessageBox.alert(
+                    '您输入的信息不完整，部分必填项目尚未填写，无法生成规范的要素式起诉状。请补充完整以下信息后再次生成：<br><br>' + missing.map((x, i) => (i+1) + '. ' + x).join('；<br>') + '<br><br>为保证文书合法有效，请务必如实、完整填写。',
+                    '信息填写不完整',
+                    { confirmButtonText: '我知道了', type: 'warning', dangerouslyUseHTMLString: true }
+                );
+                return;
+            }
+            const risks = collectPropertyRisks();
+            if (risks.length) {
+                try {
+                    await ElementPlus.ElMessageBox.confirm(buildRiskHtml(risks), '法律风险提示', { confirmButtonText: '继续生成', cancelButtonText: '返回修改', type: 'warning' });
+                } catch { return; }
+            }
+            try {
+                await ElementPlus.ElMessageBox.confirm(buildFinalConfirmHtml(), '生成前确认内容', { confirmButtonText: '确认生成', cancelButtonText: '返回检查', type: 'warning', dangerouslyUseHTMLString: true });
+            } catch { return; }
+            generatePropertyDocument();
+        };
+
+        // =====================
+        // 金融版生成前流程
+        // =====================
+        const handleGenerateFinanceBeforeSubmit = async () => {
+            try {
+                await ElementPlus.ElMessageBox.confirm(buildFinalConfirmHtml(), '生成前确认内容', { confirmButtonText: '确认生成', cancelButtonText: '返回检查', type: 'warning', dangerouslyUseHTMLString: true });
+            } catch { return; }
+            generateFinanceDocument();
+        };
+
+        // =====================
+        // 生成物业文书
+        // =====================
+        const generatePropertyDocument = () => {
+            printForm();
+        };
+
+        // =====================
+        // 生成金融文书
+        // =====================
+        const generateFinanceDocument = () => {
+            printForm();
+        };
+
+
+        // 金融借款测试数据填充函数
+        const fillFinanceTestData = () => {
+            // === 原告法人 ===
+            fin.fLenderName = '中国工商银行股份有限公司北京朝阳支行';
+            fin.fLenderAddr = '北京市朝阳区建国门外大街1号国贸大厦B座';
+            fin.fLenderRegAddr = '北京市朝阳区市场监督管理局';
+            fin.fLegalRep = '张伟明';
+            fin.fLegalRepPosition = '行长';
+            fin.fLenderPhone = '010-88888888';
+            fin.fLenderUscc = '91110105MA01234X';
+            fin.fTypeLLC = true;
+
+            // === 代理人 ===
+            fin.hasAgent = true;
+            fin.agentName = '李明律师';
+            fin.agentUnit = '北京正义律师事务所';
+            fin.agentTitle = '律师';
+            fin.agentPhone = '010-66666666';
+            fin.agentSpecial = true;
+            fin.agentAuthDesc = '代为承认、放弃、变更诉讼请求，进行和解，提起反诉或上诉';
+
+            // === 被告自然人 ===
+            fin.fBorrowerName = '王建国';
+            fin.dMale = true;
+            fin.dBirth = '1978年6月15日';
+            fin.dNation = '汉族';
+            fin.dWork = '北京某科技有限公司';
+            fin.dPosition = '总经理';
+            fin.dPhone = '13900139000';
+            fin.fBorrowerAddr = '北京市朝阳区建国路88号现代城小区1号楼1001室';
+            fin.dLiveAddr = '北京市朝阳区建国路88号现代城小区1号楼1001室';
+            fin.dIdType = '居民身份证';
+            fin.dIdNo = '110105197806151234';
+
+            // === 被告法人 ===
+            fin.dEntityName = '';
+            fin.dEntityAddr = '';
+            fin.dEntityRegAddr = '';
+            fin.dEntityLegal = '';
+            fin.dEntityPosition = '';
+            fin.dEntityPhone = '';
+            fin.dEntityUscc = '';
+            fin.dEntityType = '';
+            fin.dEntityOwnerType = '';
+
+            // === 诉讼请求 ===
+            fin.principalCutoffDate = '2025年6月20日';
+            fin.fPrincipalAmount = '500000';
+            fin.interestCutoffDate = '2025年6月20日';
+            fin.fInterestAmount = '125000';
+            fin.fCompoundAmount = '15600';
+            fin.fPenaltyAmount = '45000';
+            fin.interestCalc = '按合同约定利率计算：年利率6.5%，逾期利率上浮50%';
+            fin.payableToEndNo = true;
+            fin.earlyRepaymentNo = true;
+            fin.collateralYes = true;
+            fin.collateralClaimDesc = '被告名下位于北京市朝阳区建国路88号房产抵押';
+            fin.expenseYes = true;
+            fin.expenseDesc = '律师费50000元，保全费5000元';
+            fin.claimFeeYes = true;
+            fin.otherClaim = '无';
+            fin.claimTotal = '735600';
+
+            // === 管辖与保全 ===
+            fin.noJurisdiction = true;
+            fin.hasPreservation = true;
+            fin.preservationCourt = '北京市朝阳区人民法院';
+            fin.preservationDate = '2025年5月15日';
+            fin.preservationCaseNo = '（2025）朝民诉保字第123号';
+
+            // === 事实与理由 ===
+            fin.factContractInfo = '《个人住房贷款合同》于2020年3月10日在北京市签订，合同编号：DK-2020-0038';
+            fin.lenderName = '中国工商银行股份有限公司北京朝阳支行';
+            fin.borrowerName = '王建国';
+            fin.coRepayerName = '无';
+            fin.guarantorName = '无';
+            fin.fPrincipalAgreed = '800000';
+            fin.fPrincipalActual = '800000';
+            fin.maturedYes = true;
+            fin.loanStartYear = '2020';
+            fin.loanStartMonth = '3';
+            fin.loanStartDay = '10';
+            fin.loanEndYear = '2035';
+            fin.loanEndMonth = '3';
+            fin.loanEndDay = '9';
+            fin.rateYes = true;
+            fin.fInterestRate = '4.9';
+            fin.penaltyRateYes = true;
+            fin.fOverdueRate = '7.35';
+            fin.compound = true;
+            fin.compoundRule = '8';
+            fin.defaultRateYes = true;
+            fin.fPenaltyRate = '7.35';
+            fin.fDisbursementDate = '2020年3月10日';
+            fin.fDisbursementAmount = '800000';
+            fin.fRepayEqualPrincipal = true;
+            fin.fRepaidPrincipal = '300000';
+            fin.fRepaidInterest = '156000';
+            fin.fInterestPaidToDate = '2024年12月10日';
+            fin.overdueYes = true;
+            fin.overdueDesc = '2025年1月起逾期至今';
+            fin.collateralContract = true;
+            fin.collateralContractDate = '2020年3月5日';
+            fin.collateralPerson = '王建国';
+            fin.collateralType = '房产抵押';
+            fin.collateralDesc = '北京市朝阳区建国路88号现代城小区1号楼1001室，建筑面积120平方米';
+            fin.registrationYes = true;
+            fin.registrationPreview = false;
+            fin.registrationNo = '京(2020)朝不动产证明第001234号';
+            fin.guaranteeContract = false;
+            fin.guaranteeContractNo = true;
+            fin.guaranteeGeneral = false;
+            fin.guaranteeJoint = false;
+            fin.otherGuaranteeNo = true;
+            fin.factClaimContract = '《个人住房贷款合同》第九条、第十条、第二十三条';
+            fin.factClaimLaw = '《中华人民共和国民法典》第六百七十四条、第六百七十六条、第六百七十七条；《民事诉讼法》相关规定';
+            fin.factOther = '被告贷款已严重逾期，原告多次催收无果';
+            fin.factEvidence = '1.个人住房贷款合同；2.房屋抵押登记证明；3.贷款发放凭证；4.还款记录；5.催收记录；6.律师函';
+
+            // === 调解意愿 ===
+            fin.mediationUnderstandYes = true;
+            fin.mediationBenefit1Yes = true;
+            fin.mediationBenefit2Yes = true;
+            fin.mediationBenefit3Yes = true;
+            fin.mediationBenefit4Yes = true;
+            fin.mediationBenefit5Yes = true;
+            fin.mediationConsiderYes = true;
+
+            // === 具状信息 ===
+            fin.signParty = '中国工商银行股份有限公司北京朝阳支行（盖章）';
+            fin.signDate = '2026年4月17日';
+            fin.courtName = '北京市朝阳区人民法院';
+        };
+
+        const fillTestExample = () => {
+            // 根据当前选择的表单类型自动填充对应测试数据
+            if (caseType2.value === 'finance') {
+                // 切换到金融表单并填充
+                caseType2.value = 'finance';
+                fillFinanceTestData();
+                return;
+            }
+            // 物业服务合同纠纷测试数据
+            // === 原告 ===
+            prop.pName = '襄阳津诚物业服务有限公司';
+            prop.pAddr = '襄阳市襄州区张湾街道江营北路28号门面房';
+            prop.pRegAddr = '襄阳市襄州区市场监督管理局';
+            prop.pLegal = '李建明';
+            prop.pPosition = '执行董事兼总经理';
+            prop.pPhone = '13907278899';
+            prop.pUscc = '91420607MA4F3XKW7L';
+            prop.pTypeLLC = true;
+            prop.pOwnerPrivate = true;
+
+            // === 代理人 ===
+            prop.hasAgent = true;
+            prop.agent1Name = '王海涛';
+            prop.agent1Unit = '湖北联帮律师事务所';
+            prop.agent1Title = '律师';
+            prop.agent1Phone = '13907278801';
+            prop.agent1Special = true;
+            prop.agent1AuthDesc = '代为承认、放弃、变更诉讼请求，进行和解，提起反诉或上诉';
+
+            prop.agent2Name = '赵晓燕';
+            prop.agent2Unit = '襄阳津诚物业服务有限公司';
+            prop.agent2Title = '员工';
+            prop.agent2Phone = '13907278802';
+            prop.agent2General = true;
+            prop.agent2AuthDesc = '一般代理';
+
+            // === 被告1 ===
+            prop.dName = '张卫国';
+            prop.dMale = true;
+            prop.dBirth = '1973年4月28日';
+            prop.dNation = '汉族';
+            prop.dWork = '无';
+            prop.dPosition = '无';
+            prop.dPhone = '13871652211';
+            prop.dAddr = '襄阳市襄州区东方新城小区12栋3单元601室';
+            prop.dLiveAddr = '襄阳市襄州区东方新城小区12栋3单元601室';
+            prop.dIdType = '居民身份证';
+            prop.dIdNo = '420621197304281537';
+
+            // === 被告2 ===
+            prop.d2Name = '白秀琴';
+            prop.d2Male = false;
+            prop.d2Female = true;
+            prop.d2Birth = '1974年4月4日';
+            prop.d2Nation = '汉族';
+            prop.d2Work = '无';
+            prop.d2Position = '无';
+            prop.d2Phone = '13797563322';
+            prop.d2Addr = '襄阳市襄州区东方新城小区12栋3单元601室';
+            prop.d2LiveAddr = '襄阳市襄州区东方新城小区12栋3单元601室';
+            prop.d2IdType = '居民身份证';
+            prop.d2IdNo = '42062119740404152X';
+
+            // === 诉讼请求 ===
+            prop.feeEndDate = '2025年12月31日';
+            prop.feeAmount = '8078';
+            prop.penaltyEndDate = '2025年12月31日';
+            prop.penaltyAmount = '1615.6';
+            prop.payableToEndNo = true;
+            prop.claimFeeYes = true;
+            prop.otherClaim = '无';
+            prop.claimTotal = '9693.6';
+
+            // === 管辖与保全 ===
+            prop.noJurisdiction = true;
+            prop.noPreservation = true;
+
+            // === 事实与理由 ===
+            prop.factContractName = '物业管理服务合同';
+            prop.factContractNo = 'YC-2023-001';
+            prop.factContractDate = '2023年3月4日';
+            prop.factContractAddr = '东方新城小区业委会办公室';
+            prop.factContract = '《物业管理服务合同》于2023年3月4日在东方新城小区业委会办公室签订';
+
+            prop.factOwnerOrg = '东方新城小区业主委员会';
+            prop.factPropCompany = '襄阳津诚物业服务有限公司';
+            prop.factLocation = '襄阳市襄州区东方新城小区12栋3单元601室';
+            prop.factArea = '128.23平方米';
+            prop.factOwner = '张卫国、白秀琴';
+            prop.factFeeStd = '1.4元/月/㎡（高层住宅）';
+            prop.factStartYear = '2023';
+            prop.factStartMonth = '4';
+            prop.factStartDay = '1';
+            prop.factEndYear = '2025';
+            prop.factEndMonth = '3';
+            prop.factEndDay = '31';
+            prop.factServiceContinue = '合同到期后继续服务至今，原合同条款继续有效';
+            prop.factPayMethod = '按季度交纳，每季度1-15日';
+            prop.factPenaltyStd = '按欠费金额的20%主张违约金';
+            prop.owedAmount = '8078';
+            prop.owedCalc = '1.4元/月/㎡×128.23㎡×45个月=8078元';
+            prop.penaltyAmount2 = '1615.6';
+            prop.penaltyCalc = '8078元×20%=1615.6元';
+            prop.factCollection = '原告已通过上门、张贴、短信等方式多次催告';
+            prop.factCollectionDate = '2025年12月20日';
+            prop.factRecord = '已在襄阳市襄州区住房和城乡建设局备案，备案编号：XF-2023-001';
+            prop.factClaimContract = '《物业管理服务合同》第十条、第十二条';
+            prop.factClaimLaw = '《中华人民共和国民法典》第九百三十九条、第九百四十四条、第九百四十八条';
+            prop.factOther = '业委会任期届满后未续聘或另聘，原告继续提供服务至今';
+            prop.factEvidence = '1.原告营业执照、法定代表人身份证明；2.物业管理服务合同及备案证明；3.房屋产权信息查询单；4.物业费催缴通知、张贴照片、短信记录；5.金华社区居委会情况说明';
+
+            // === 调解意愿 ===
+            prop.mediationUnderstandYes = true;
+            prop.mediationBenefit1Yes = true;
+            prop.mediationBenefit2Yes = true;
+            prop.mediationBenefit3Yes = true;
+            prop.mediationBenefit4Yes = true;
+            prop.mediationBenefit5Yes = true;
+            prop.mediationConsiderYes = true;
+
+            // === 具状信息 ===
+            prop.signParty = '襄阳津诚物业服务有限公司（盖章）';
+            prop.signDate = '2026年3月3日';
+            prop.courtName = '襄阳市襄州区人民法院';
+
+            alert('完整测试数据已填充！共填充 ' + Object.keys(prop).length + ' 个字段');
+        };
+
+        const fillDemo = () => {
+            fillTestExample();
+        };
+
+        const printForm = async () => {
+            await Vue.nextTick();
+
+            const caseType2_val = caseType2.value;
+            let formContent;
+
+            if (caseType2_val === 'property') {
+                formContent = document.getElementById('form-property');
+            } else {
+                formContent = document.getElementById('form-finance');
+            }
+
+            if (!formContent) {
+                ElementPlus.ElMessage.error('无法获取表单内容');
+                return;
+            }
+
+            const tempDiv = formContent.cloneNode(true);
+
+            // 1. 把文本输入框替换成打印专用 span
+            tempDiv.querySelectorAll('input[type="text"]').forEach(input => {
+                const span = document.createElement('span');
+                span.className = 'print-line';
+
+                const value = (input.value || '').trim();
+                span.textContent = value || '\u00A0'; // 空值也保留占位
+
+                const inlineWidth = input.style.width;
+                const computedWidth = window.getComputedStyle(input).width;
+                const finalWidth = inlineWidth || computedWidth || '100px';
+
+                span.style.display = 'inline-block';
+                span.style.verticalAlign = 'baseline';
+                span.style.borderBottom = '1px solid #000';
+                span.style.minHeight = '20px';
+                span.style.lineHeight = '20px';
+                span.style.padding = '0 4px';
+                span.style.fontFamily = '"仿宋", "FangSong", serif';
+                span.style.fontSize = '14px';
+                span.style.color = '#000';
+                span.style.whiteSpace = 'pre-wrap';
+                span.style.width = finalWidth;
+                span.style.minWidth = finalWidth;
+                span.style.textAlign = 'left';
+                span.style.boxSizing = 'border-box';
+
+                input.parentNode.replaceChild(span, input);
+            });
+
+            // 2. textarea 转 div
+            tempDiv.querySelectorAll('textarea').forEach(textarea => {
+                const div = document.createElement('div');
+                div.className = 'print-line';
+                div.textContent = (textarea.value || '').trim() || '\u00A0';
+                div.style.display = 'block';
+                div.style.width = '100%';
+                div.style.minHeight = '60px';
+                div.style.whiteSpace = 'pre-wrap';
+                div.style.borderBottom = '1px solid #000';
+                div.style.padding = '4px';
+                textarea.parentNode.replaceChild(div, textarea);
+            });
+
+            // 3. checkbox 替换为Unicode符号,确保打印时显示正确
+            tempDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                const span = document.createElement('span');
+                span.className = 'print-checkbox';
+                if (cb.checked) {
+                    span.textContent = '☑';
+                    span.style.color = '#000';
+                } else {
+                    span.textContent = '☐';
+                    span.style.color = '#666';
+                }
+                span.style.fontSize = '14px';
+                span.style.lineHeight = '1';
+                span.style.verticalAlign = 'middle';
+                span.style.display = 'inline-block';
+                span.style.width = '14px';
+                span.style.textAlign = 'center';
+                cb.parentNode.replaceChild(span, cb);
+            });
+
+            // 4. 处理 {{ prop.xxx }} / {{ fin.xxx }}
+            tempDiv.querySelectorAll('*').forEach(el => {
+                el.childNodes.forEach(node => {
+                    if (node.nodeType === 3) {
+                        let text = node.textContent;
+
+                        text = text.replace(/\{\{\s*prop\.(\w+)\s*\}\}/g, (_, fieldName) => {
+                            const value = prop[fieldName];
+                            return value == null || value === '' ? ' ' : String(value);
+                        });
+
+                        text = text.replace(/\{\{\s*fin\.(\w+)\s*\}\}/g, (_, fieldName) => {
+                            const value = fin[fieldName];
+                            return value == null || value === '' ? ' ' : String(value);
+                        });
+
+                        node.textContent = text;
+                    }
+                });
+            });
+
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                ElementPlus.ElMessage.error('请允许弹出窗口以进行打印');
+                return;
+            }
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                  <meta charset="UTF-8">
+                  <title>要素式起诉状</title>
+                  <style>
+                    * { box-sizing: border-box; font-family: "仿宋", "FangSong", "STFangsong", "Times New Roman", serif; }
+                    body { padding: 15mm; margin: 0; font-size: 14px; line-height: 1.8; color: #000; }
+                    .element-table { width: 100%; border-collapse: collapse; border: 1px solid #000; }
+                    .element-table th, .element-table td { border: 1px solid #000; padding: 6px 10px; vertical-align: top; }
+                    .element-table th { background-color: #f5f5f5; font-weight: bold; text-align: center; width: 30%; }
+                    .element-table td.section-title, .element-table td.title-cell { background-color: #e8e8e8; font-weight: bold; text-align: center; }
+                    .element-table td.title-cell { font-size: 18px; }
+                    .print-line {
+                      display: inline-block;
+                      vertical-align: baseline;
+                      border-bottom: 1px solid #000;
+                      min-height: 20px;
+                      line-height: 20px;
+                      padding: 0 4px;
+                      font-family: "仿宋", "FangSong", "STFangsong", "Times New Roman", serif;
+                      font-size: 14px;
+                      color: #000;
+                      white-space: pre-wrap;
+                      box-sizing: border-box;
+                    }
+                    .print-checkbox {
+                      font-size: 14px;
+                      line-height: 1;
+                      vertical-align: middle;
+                      display: inline-block;
+                      width: 14px;
+                      text-align: center;
+                    }
+                    .notice { font-size: 12px; line-height: 1.6; }
+                    .signature { text-align: right; margin-top: 40px; font-size: 14px; line-height: 2.2; }
+                    @page { size: A4 portrait; margin: 15mm; }
+                  </style>
+                </head>
+                <body>${tempDiv.innerHTML}</body>
+                </html>
+            `);
+
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+            }, 300);
+        };
+
+
+        const clearForm = () => {
+            Object.keys(prop).forEach(key => {
+                if (typeof prop[key] === 'boolean') prop[key] = false;
+                else prop[key] = '';
+            });
+            Object.keys(fin).forEach(key => {
+                if (typeof fin[key] === 'boolean') fin[key] = false;
+                else fin[key] = '';
+            });
+            caseText2.value = '';
+        };
+
+        return {
+            caseType, caseType2, caseText, caseText2,
+            result, error, loading,
+            prop, fin,
+            analyze, fillExample, generateForm, doPropertyExtraction, doFinanceExtraction, handleGenerateBeforeSubmit, handleGeneratePropertyBeforeSubmit, handleGenerateFinanceBeforeSubmit, generatePropertyDocument, generateFinanceDocument, fillDemo, fillTestExample, fillFinanceTestData, printForm, clearForm
+        };
+    }
+});
+console.log('Vue应用创建完成，准备挂载');
+
+app.use(ElementPlus);
+console.log('ElementPlus已注册');
+
+app.mount('#app');
+console.log('✅ Vue应用已成功挂载到 #app');
+</script>
+</body>
+</html>
